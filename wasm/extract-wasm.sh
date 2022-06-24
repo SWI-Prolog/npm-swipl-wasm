@@ -5,7 +5,7 @@
 set -o errexit
 set -o xtrace
 
-mkdir -p wasm/dist
-cp wasm/swipl-devel/build.wasm/src/swipl-web.data wasm/dist/swipl-web.data
-cp wasm/swipl-devel/build.wasm/src/swipl-web.wasm wasm/dist/swipl-web.wasm
-cp wasm/swipl-devel/build.wasm/src/swipl-web.js wasm/dist/swipl-web.js
+mkdir -p dist/swipl
+cp wasm/swipl-devel/build.wasm/src/swipl-web.data dist/swipl/swipl-web.data
+cp wasm/swipl-devel/build.wasm/src/swipl-web.wasm dist/swipl/swipl-web.wasm
+cp wasm/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl-web.js
