@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "author": "Raivo Laanemets",
-  "license": "MIT",
+  "license": "BSD",
   "type": "commonjs",
   "devDependencies": {
     "@types/emscripten": "^1.39.6",
