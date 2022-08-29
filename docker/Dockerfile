@@ -36,12 +36,13 @@ RUN tar -xf /zlib-1.2.12.tar.gz --directory /
 
 # Clones SWI-Prolog.
 
-ENV SWIPL_REPO https://github.com/SWI-Prolog/swipl-devel.git
-ENV SWIPL_COMMIT 5c7d1f8352b27d45cb8066eac5af95cf925a05b7
-
-RUN git clone $SWIPL_REPO /swipl-devel
+RUN git clone https://github.com/SWI-Prolog/swipl-devel.git /swipl-devel
 WORKDIR /swipl-devel
-RUN git checkout $SWIPL_COMMIT -b local-wasm
+
+# Uncomment the following to build a specific commit.
+# ENV SWIPL_COMMIT 5c7d1f8352b27d45cb8066eac5af95cf925a05b7
+# RUN git checkout $SWIPL_COMMIT -b local-wasm
+
 RUN git fetch
 RUN git submodule update --init
 
