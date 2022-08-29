@@ -46,8 +46,6 @@ WORKDIR /swipl-devel
 RUN git fetch
 RUN git submodule update --init
 
-COPY patches/prolog.js /swipl-devel/src/wasm/prolog.js
-
 # Compiles everything.
 
 COPY build-all.sh /build-all.sh
