@@ -1,7 +1,0 @@
-{
-  "files.exclude": {
-    "wasm/swipl-devel": true,
-    "wasm/zlib-1.2.12": true,
-    "wasm/zlib-1.2.12.tar.gz": true
-  }
-}
