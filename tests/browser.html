@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF8">
+    <title>SWI-Prolog WebAssembly browser test</title>
+  </head>
+  <body>
+    <div id="solution"></div>
+    <script src="/dist/swipl/swipl-web.js"></script>
+    <script>
+      (async () => {
+        const swipl = await SWIPL({
+          noInitialRun: true,
+          arguments: ['-q'],
+          locateFile: (url) => {
+            if (url === 'swipl-web.data') {
+              return '/dist/swipl/swipl-web.data';
+            } else if (url === 'swipl-web.wasm') {
+              return '/dist/swipl/swipl-web.wasm';
+            }
+            return url;
+          }
+        });
+        const query = "member(X, [a, b, c]).";
+        const solutionElement = document.getElementById('solution');        
+        const firstSolution = swipl.prolog.query(query).once().X;
+        solutionElement.textContent = firstSolution;
+      })();
+    </script>
+  </body>
+</html>
