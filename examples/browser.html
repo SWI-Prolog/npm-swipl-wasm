@@ -22,7 +22,8 @@
           }
         });
         const query = "member(X, [a, b, c]).";
-        const solutionElement = document.getElementById('solution');        
+        const solutionElement = document.getElementById('solution');
+        // See https://swi-prolog.discourse.group/t/swi-prolog-in-the-browser-using-wasm/5650/1      
         const firstSolution = swipl.prolog.query(query).once().X;
         solutionElement.textContent = firstSolution;
       })();
