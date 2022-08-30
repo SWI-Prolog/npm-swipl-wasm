@@ -6,11 +6,13 @@
     "./swipl-web": "./dist/swipl/swipl-web.js"
   },
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": "Raivo Laanemets",
   "license": "BSD-2-Clause",
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^18.7.14",
+    "copyfiles": "^2.4.1",
     "http-server": "^14.1.1",
     "npm-run-all": "^4.1.5",
     "typescript": "^4.8.2"
@@ -19,6 +21,9 @@
     "./dist/locateFile.js": "./dist/locateFile-browser.js",
     "./dist/swipl/swipl.js": "./dist/swipl/swipl-web.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build:wasm-docker:build": "docker build -t swipl-wasm-image docker",
     "build:wasm-docker:create": "docker create --name swipl-wasm swipl-wasm-image",
@@ -29,7 +34,12 @@
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/swipl.wasm/src/swipl-web.js dist/swipl/swipl.js",
     "build:wasm-docker:extract": "run-s build:wasm-docker:extract:*",
     "build:wasm-docker": "run-s build:wasm-docker:build build:wasm-docker:create build:wasm-docker:extract build:wasm-docker:remove",
-    "build": "run-s build:wasm-docker",
+    "build:wasm": "run-s build:wasm-docker",
+    "build:tsc:compile": "tsc",
+    "build:tsc:copy": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
+    "build:tsc": "run-s build:tsc:*",
+    "build": "run-s build:*",
+    "prepare": "yarn run build",
     "test:serve-http": "http-server . -c-1"
   }
 }
