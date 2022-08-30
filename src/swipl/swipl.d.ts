@@ -13,7 +13,8 @@ export interface FS {
 }
 
 export interface Prolog {
-  call_string(str: string): void;
+  // call_string(str: string): void;
+  query(str: string): any;
 }
 
 export interface SwiplModule {

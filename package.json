@@ -3,7 +3,8 @@
   "version": "1.0.1",
   "exports": {
     "./swipl": "./dist/swipl/swipl.js",
-    "./swipl-web": "./dist/swipl/swipl-web.js"
+    "./swipl-web": "./dist/swipl/swipl-web.js",
+    ".": "./dist/index.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
