@@ -1,7 +1,7 @@
 import SWIPL, { SwiplOptions, SwiplModule } from './swipl/swipl';
 import { locateFile } from './locateFile';
 
-export default function(args: SwiplOptions): SwiplModule {
+export default function(args: SwiplOptions): Promise<SwiplModule> {
   return SWIPL({ locateFile, noInitialRun: true, arguments: ["-q"], ...args });
 }
 

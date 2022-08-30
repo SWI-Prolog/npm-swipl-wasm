@@ -21,6 +21,6 @@ export interface SwiplModule {
   prolog: Prolog;
 }
 
-declare function SWIPL(options: SwiplOptions): SwiplModule;
+declare function SWIPL(options: SwiplOptions): Promise<SwiplModule>;
 
 export default SWIPL;
