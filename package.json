@@ -38,7 +38,6 @@
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/swipl.wasm/src/swipl-web.js dist/swipl/swipl.js",
     "build:wasm-docker:extract": "run-s build:wasm-docker:extract:*",
     "build:wasm-docker": "run-s build:wasm-docker:build build:wasm-docker:create build:wasm-docker:extract build:wasm-docker:remove",
-    "build:wasm": "run-s build:wasm-docker",
     "build:tsc:compile": "tsc",
     "build:tsc:copy": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
     "build:tsc": "run-s build:tsc:*",
