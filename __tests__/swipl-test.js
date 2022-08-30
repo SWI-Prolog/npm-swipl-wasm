@@ -28,9 +28,6 @@ describe('SWIPL', () => {
     it('prolog.call and prolog.query should be functions', () => {
       expect(mod.prolog.call).toBeInstanceOf(Function);
       expect(mod.prolog.query).toBeInstanceOf(Function);
-      // expect(mod.prolog.call_string).toBeInstanceOf(Function);
-      // expect(mod.locateFile('myfile.txt')).toEqual('myfile.txt');
-      // expect(mod.locateFile('swipl-web.data')).toEqual(path.join(__dirname, '..', 'dist', 'swipl', 'swipl-web.data'));
     });
 
     it('FS.writeFile should be a function', () => {
