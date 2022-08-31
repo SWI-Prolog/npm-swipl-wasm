@@ -19,6 +19,5 @@ cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/E
   -DGMP_ROOT=/gmp \
   -DSTATIC_EXTENSIONS=ON \
   -DBUILD_SWIPL_LD=OFF \
-  -DSWIPL_PACKAGES=OFF \
   -G Ninja ..
 ninja
