@@ -31,8 +31,10 @@ RUN ./emsdk activate $EMSDK_VERSION
 
 # Downloads ZLIB.
 
-RUN wget --no-verbose https://zlib.net/zlib-1.2.12.tar.gz -O /zlib-1.2.12.tar.gz
-RUN tar -xf /zlib-1.2.12.tar.gz --directory /
+ENV ZLIB_VERSION 1.2.12
+
+RUN wget --no-verbose https://zlib.net/zlib-$ZLIB_VERSION.tar.gz -O /zlib-$ZLIB_VERSION.tar.gz
+RUN tar -xf /zlib-$ZLIB_VERSION.tar.gz --directory /
 
 # Clones SWI-Prolog.
 
