@@ -30,19 +30,25 @@ RUN git pull
 RUN ./emsdk install $EMSDK_VERSION
 RUN ./emsdk activate $EMSDK_VERSION
 
-# Downloads ZLIB.
+# Downloads and builds ZLIB.
 
 ENV ZLIB_VERSION 1.2.12
 
 RUN wget --no-verbose https://zlib.net/zlib-$ZLIB_VERSION.tar.gz -O /zlib-$ZLIB_VERSION.tar.gz
 RUN tar -xf /zlib-$ZLIB_VERSION.tar.gz --directory /
+COPY build-zlib.sh /build-zlib.sh
+RUN chmod +x /build-zlib.sh
+RUN /build-zlib.sh
 
-# Downloads GMP.
+# Downloads and builds GMP.
 
 ENV GMP_VERSION 6.2.1
 
 RUN wget --no-verbose https://gmplib.org/download/gmp/gmp-$GMP_VERSION.tar.lz -O /gmp-$GMP_VERSION.tar.lz
 RUN tar -xf /gmp-$GMP_VERSION.tar.lz --directory /
+COPY build-gmp.sh /build-gmp.sh
+RUN chmod +x /build-gmp.sh
+RUN /build-gmp.sh
 
 # Clones SWI-Prolog.
 
@@ -58,6 +64,6 @@ RUN git submodule update --init
 
 # Compiles everything.
 
-COPY build-all.sh /build-all.sh
-RUN chmod +x /build-all.sh
-RUN /build-all.sh
+COPY build-swipl.sh /build-swipl.sh
+RUN chmod +x /build-swipl.sh
+RUN /build-swipl.sh

@@ -5,20 +5,6 @@ set -o xtrace
 
 source /emsdk/emsdk_env.sh
 
-# ZLIB
-
-cd /zlib-$ZLIB_VERSION
-emconfigure ./configure
-EMCC_CFLAGS=-Wno-deprecated-non-prototype emmake make
-
-# GMP
-
-cd /gmp-$GMP_VERSION
-mkdir /gmp
-emconfigure ./configure --host=none --disable-assembly --prefix=/gmp
-make
-make install
-
 # SWI-Prolog
 
 mkdir /swipl-devel/swipl.wasm
