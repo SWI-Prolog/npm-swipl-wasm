@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
   bzip2 \
   cmake \
   git \
+  lzip \
   ninja-build \
   python3 \
   wget \
@@ -35,6 +36,13 @@ ENV ZLIB_VERSION 1.2.12
 
 RUN wget --no-verbose https://zlib.net/zlib-$ZLIB_VERSION.tar.gz -O /zlib-$ZLIB_VERSION.tar.gz
 RUN tar -xf /zlib-$ZLIB_VERSION.tar.gz --directory /
+
+# Downloads GMP.
+
+ENV GMP_VERSION 6.2.1
+
+RUN wget --no-verbose https://gmplib.org/download/gmp/gmp-$GMP_VERSION.tar.lz -O /gmp-$GMP_VERSION.tar.lz
+RUN tar -xf /gmp-$GMP_VERSION.tar.lz --directory /
 
 # Clones SWI-Prolog.
 
