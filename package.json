@@ -1,6 +1,6 @@
 {
   "name": "swipl-wasm",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "exports": {
     "./swipl": "./dist/swipl/swipl.js",
     "./swipl-web": "./dist/swipl/swipl-web.js",
@@ -8,7 +8,10 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "author": "Raivo Laanemets",
+  "contributors": [
+    "Raivo Laanemets",
+    "Jesse Wright"
+  ],
   "license": "BSD-2-Clause",
   "type": "commonjs",
   "devDependencies": {
