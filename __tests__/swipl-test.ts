@@ -1,6 +1,5 @@
-const path = require('path');
-const SWIPL = require('../dist').default;
-const query = require('../dist').query;
+import path from 'path';
+import SWIPL, { query } from '../dist';
 
 describe('SWIPL', () => {
   it('should be a function', () => {

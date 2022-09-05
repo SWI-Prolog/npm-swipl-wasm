@@ -1,8 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-
-const SWIPL = require('../dist').default;
+import SWIPL from '../dist';
 
 describe('SWIPL', () => {
   it('should be a function', () => {

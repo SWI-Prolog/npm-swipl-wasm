@@ -1,16 +1,4 @@
-export interface SwiplOptions {
-  print?: (str: string) => void;
-  printErr?: (str: string) => void;
-  arguments?: string[];
-  noInitialRun?: boolean;
-  locateFile?: (str: string) => string;
-  [key: string | symbol]: any;
-}
-
-export interface FS {
-  writeFile(fileName: string, file: string): void;
-  [key: string | symbol]: any;
-}
+import type { FS, EmscriptenModule } from 'emscripten';
 
 export interface Prolog {
   // call_string(str: string): void;
@@ -22,6 +10,8 @@ export interface SwiplModule {
   prolog: Prolog;
 }
 
-declare function SWIPL(options: SwiplOptions): Promise<SwiplModule>;
+export type SwiplOptions = EmscriptenModule;
+
+declare function SWIPL(options: Partial<EmscriptenModule>): Promise<SwiplModule>;
 
 export default SWIPL;
