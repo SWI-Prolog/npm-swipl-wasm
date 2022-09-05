@@ -15,6 +15,7 @@
   "license": "BSD-2-Clause",
   "type": "commonjs",
   "devDependencies": {
+    "@types/emscripten": "^1.39.6",
     "@types/jest": "^29.0.0",
     "@types/node": "^18.7.14",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
@@ -22,9 +23,11 @@
     "copyfiles": "^2.4.1",
     "eslint": "^8.23.0",
     "http-server": "^14.1.1",
-    "jest": "^29.0.1",
+    "jest": "28",
     "jest-environment-jsdom": "^29.0.1",
     "npm-run-all": "^4.1.5",
+    "pre-commit": "^1.2.2",
+    "ts-jest": "^28.0.8",
     "typescript": "^4.8.2"
   },
   "browser": {
@@ -50,7 +53,28 @@
     "build": "run-s build:*",
     "prepare": "yarn run build",
     "test:serve-http": "http-server . -c-1",
-    "test": "jest",
+    "test": "yarn run build && jest",
     "lint": "eslint . --ext .ts"
-  }
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ]
 }

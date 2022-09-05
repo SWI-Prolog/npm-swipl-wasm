@@ -8,7 +8,7 @@ describe('SWIPL', () => {
   });
 
   describe('Return on empty input', () => {
-    let mod;
+    let mod: any;
 
     beforeEach(async () => {
       mod = await SWIPL({});
