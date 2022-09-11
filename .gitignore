@@ -3,3 +3,4 @@ wasm/swipl-devel
 wasm/zlib-1.2.12
 wasm/zlib-1.2.12.tar.gz
 dist
+coverage
