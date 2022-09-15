@@ -1,6 +1,5 @@
-const path = require('path');
-const SWIPL = require('../dist').default;
-const query = require('../dist').query;
+import path from 'path';
+import SWIPL, { query } from '../dist';
 
 describe('SWIPL', () => {
   it('should be a function', () => {
@@ -8,7 +7,7 @@ describe('SWIPL', () => {
   });
 
   describe('Return on empty input', () => {
-    let mod;
+    let mod: any;
 
     beforeEach(async () => {
       mod = await SWIPL({});
