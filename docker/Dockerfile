@@ -52,12 +52,12 @@ RUN /build-gmp.sh
 
 # Clones SWI-Prolog.
 
+# Uncomment the following to build a specific commit.
+ENV SWIPL_COMMIT efa183df012e224bf444deee4e57b76380de7c36
+
 RUN git clone https://github.com/SWI-Prolog/swipl-devel.git /swipl-devel
 WORKDIR /swipl-devel
-
-# Uncomment the following to build a specific commit.
-# ENV SWIPL_COMMIT 5c7d1f8352b27d45cb8066eac5af95cf925a05b7
-# RUN git checkout $SWIPL_COMMIT -b local-wasm
+RUN git checkout $SWIPL_COMMIT -b local-wasm
 
 RUN git fetch
 RUN git submodule update --init
