@@ -56,7 +56,7 @@ RUN git clone https://github.com/SWI-Prolog/swipl-devel.git /swipl-devel
 RUN git submodule update --init
 
 # Checkout a specific commit
-ENV SWIPL_COMMIT 1e998dccd1b954cab79c35ae1c636e07a2d82376
+ENV SWIPL_COMMIT af49af369c122dd1036851c4d104577c6c999c12
 
 WORKDIR /swipl-devel
 RUN git pull && git submodule update --init && \
