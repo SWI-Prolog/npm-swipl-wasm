@@ -6,7 +6,6 @@ const SWIPL = require('swipl-wasm/swipl');
   // .data and .wasm files.
   const swiplModuleLocation = require.resolve('swipl-wasm/swipl');
   const swipl = await SWIPL({
-    noInitialRun: true,
     arguments: ['-q'],
     locateFile: (url) => {
       // These are common with the web version.
