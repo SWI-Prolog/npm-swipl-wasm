@@ -2,7 +2,7 @@
   "name": "swipl-wasm",
   "version": "1.2.0",
   "exports": {
-    "./swipl": "./dist/swipl/swipl.js",
+    "./swipl-node": "./dist/swipl-node.js",
     "./swipl-web": "./dist/swipl/swipl-web.js",
     ".": "./dist/index.js"
   },
