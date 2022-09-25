@@ -1,23 +1,11 @@
 const assert = require("assert");
-const path = require("path");
-const SWIPL = require("swipl-wasm/swipl");
+const SWIPL = require("swipl-wasm/swipl-node");
 
 describe("SWI-Prolog WebAssembly on Node.js", () => {
   it("should conform to certain typing", async () => {
     assert.strictEqual(typeof SWIPL, "function");
 
-    const swiplModuleLocation = require.resolve("swipl-wasm/swipl");
-    const swipl = await SWIPL({
-      arguments: ["-q"],
-      locateFile: (url) => {
-        if (url === "swipl-web.data") {
-          return path.join(path.dirname(swiplModuleLocation), "swipl-web.data");
-        } else if (url === "swipl-web.wasm") {
-          return path.join(path.dirname(swiplModuleLocation), "swipl-web.wasm");
-        }
-        return url;
-      },
-    });
+    const swipl = await SWIPL({ arguments: ["-q"] });
 
     assert.strictEqual(typeof swipl.FS, "object");
     assert.strictEqual(typeof swipl.FS.writeFile, "function");
@@ -28,18 +16,7 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
   });
 
   it("should run simple query", async () => {
-    const swiplModuleLocation = require.resolve("swipl-wasm/swipl");
-    const swipl = await SWIPL({
-      arguments: ["-q"],
-      locateFile: (url) => {
-        if (url === "swipl-web.data") {
-          return path.join(path.dirname(swiplModuleLocation), "swipl-web.data");
-        } else if (url === "swipl-web.wasm") {
-          return path.join(path.dirname(swiplModuleLocation), "swipl-web.wasm");
-        }
-        return url;
-      },
-    });
+    const swipl = await SWIPL({ arguments: ["-q"] });
     assert.strictEqual(
       swipl.prolog.query("member(X, [a, b, c]).").once().X,
       "a"
