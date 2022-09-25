@@ -6,7 +6,6 @@ const SWIPL = require("./swipl/swipl");
 
 module.exports = (options) => {
   return SWIPL({
-    ...options,
     locateFile: (url) => {
       if (url === "swipl-web.data") {
         return path.join(__dirname, "swipl", "swipl-web.data");
@@ -15,5 +14,6 @@ module.exports = (options) => {
       }
       return url;
     },
+    ...options,
   });
 };
