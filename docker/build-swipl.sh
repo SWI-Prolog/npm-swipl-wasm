@@ -7,7 +7,7 @@ source /emsdk/emsdk_env.sh
 
 # SWI-Prolog
 
-mkdir /swipl-devel/build.wasm
+mkdir -p /swipl-devel/build.wasm
 cd /swipl-devel/build.wasm
 cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
   -DCMAKE_BUILD_TYPE=Release \
