@@ -1,5 +1,5 @@
 const assert = require("assert");
-const SWIPL = require("swipl-wasm/swipl-node");
+const SWIPL = require("../dist/swipl-node");
 
 describe("SWI-Prolog WebAssembly on Node.js", () => {
   it("should conform to certain typing", async () => {

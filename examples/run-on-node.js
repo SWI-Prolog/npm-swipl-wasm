@@ -1,5 +1,5 @@
 const path = require("path");
-const SWIPL = require("swipl-wasm/swipl-node");
+const SWIPL = require("../dist/swipl-node");
 
 (async () => {
   const swipl = await SWIPL({ arguments: ["-q"] });
