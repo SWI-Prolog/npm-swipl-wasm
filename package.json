@@ -1,37 +1,21 @@
 {
   "name": "swipl-wasm",
   "version": "1.2.0",
-  "exports": {
-    "./swipl-node": "./dist/swipl-node.js",
-    "./swipl-web": "./dist/swipl/swipl-web.js",
-    ".": "./dist/index.js"
-  },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "contributors": [
     "Raivo Laanemets",
-    "Jesse Wright"
+    "Jesse Wright",
+    "Jan Wielemaker"
   ],
   "license": "BSD-2-Clause",
   "type": "commonjs",
   "devDependencies": {
     "@types/emscripten": "^1.39.6",
     "@types/node": "^18.7.14",
-    "@typescript-eslint/eslint-plugin": "^5.36.1",
-    "@typescript-eslint/parser": "^5.36.1",
-    "copyfiles": "^2.4.1",
-    "eslint": "^8.23.0",
     "http-server": "^14.1.1",
     "mocha": "^10.0.0",
     "node-static": "^0.7.11",
     "npm-run-all": "^4.1.5",
-    "pre-commit": "^1.2.2",
-    "puppeteer": "^18.0.5",
-    "typescript": "^4.8.2"
-  },
-  "browser": {
-    "./dist/locateFile.js": "./dist/locateFile-browser.js",
-    "./dist/swipl/swipl.js": "./dist/swipl/swipl-web.js"
+    "puppeteer": "^18.0.5"
   },
   "files": [
     "dist"
@@ -46,13 +30,8 @@
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl.js",
     "build:wasm-docker:extract": "run-s build:wasm-docker:extract:*",
     "build:wasm-docker": "run-s build:wasm-docker:build build:wasm-docker:create build:wasm-docker:extract build:wasm-docker:remove",
-    "build:tsc:compile": "tsc",
-    "build:tsc:copy": "copyfiles -u 1 \"src/**/*.d.ts\" dist",
-    "build:tsc": "run-s build:tsc:*",
-    "build": "run-s build:*",
-    "prepare": "yarn run build",
+    "build": "run-s build:wasm-docker",
     "test:serve-http": "http-server . -c-1",
-    "test": "mocha tests --timeout 20000",
-    "lint": "eslint . --ext .ts"
-  }  
+    "test": "mocha tests --timeout 20000"
+  }
 }
