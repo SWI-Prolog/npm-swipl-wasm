@@ -1,4 +1,3 @@
-const path = require("path");
 const SWIPL = require("../dist/swipl-node");
 
 (async () => {
