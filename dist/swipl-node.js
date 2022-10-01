@@ -2,17 +2,15 @@ const path = require("path");
 const SWIPL = require("./swipl/swipl");
 
 // Wraps swipl.js built by Emscripten to provide location for
-// .data and .wasm file locations.
+// the .data file.
 
 module.exports = (options) => {
   return SWIPL({
-    locateFile: (url) => {
+    locateFile: (url, prefix) => {
       if (url === "swipl-web.data") {
         return path.join(__dirname, "swipl", "swipl-web.data");
-      } else if (url === "swipl-web.wasm") {
-        return path.join(__dirname, "swipl", "swipl-web.wasm");
       }
-      return url;
+      return prefix + url;
     },
     ...options,
   });
