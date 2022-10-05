@@ -50,6 +50,22 @@ The package can be built using npm or yarn. Please use yarn to
 add new dependencies and update yarn.lock file. SWI-Prolog WebAssembly
 version is currently built inside Docker with Emscripten.
 
+## Versioning
+
+The package uses its own versioning scheme using semver. It is
+detached from the versioning of SWI-Prolog itself.
+
+To get the underlying SWI-Prolog version:
+
+```js
+const swipl = await SWIPL({ arguments: ["-q"] });
+const version = swipl.prolog
+  .query("current_prolog_flag(version, Version)")
+  .once().Version;
+```
+
+The version is returned as integer `10000 × Major + 100 × Minor + Patch`.
+
 ## TODO
 
 - More examples (how to bundle with webpack)
