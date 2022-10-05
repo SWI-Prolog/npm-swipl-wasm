@@ -140,7 +140,7 @@ export type Query = {
 /**
  * Prolog-JavaScript interface of the Prolog instance.
  */
-export interface Prolog {
+export type Prolog = {
   /**
    * Call a Prolog goal.  This function deals with many variations to
    * call Prolog.
@@ -195,7 +195,7 @@ export interface Prolog {
    * @param input Input variable bindings.
    */
   query(goal: string, input?: Record<string, PrologTerm>): Query;
-}
+};
 
 /**
  * SWI-Prolog instance.
