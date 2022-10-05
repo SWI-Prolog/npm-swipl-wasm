@@ -88,7 +88,13 @@ export type PrologTerm =
   | PrologRational
   | PrologCompound
   | PrologList
-  | PrologBlob;
+  | PrologBlob
+  | string
+  | number
+  | bigint
+  | boolean
+  | void
+  | null;
 
 export type PrologCallOptions = {
   /**
@@ -101,10 +107,40 @@ export type PrologCallOptions = {
   async?: boolean;
 };
 
+export type ResponseValue = Record<string, PrologTerm>;
+
+/**
+ * Return type of Query#next().
+ */
+export type QueryResponse = {
+  done: boolean;
+  error?: boolean;
+  /**
+   * Error message set for some errors.
+   */
+  message?: string;
+  value?: null | ResponseValue;
+};
+
+/**
+ * Query interface for opening new queries.
+ */
+export type Query = {
+  /**
+   * Fetches the next solution.
+   */
+  next(): QueryResponse;
+  /**
+   * Runs the query. If there is a solution then returns it.
+   * Closes the query.
+   */
+  once(): QueryResponse | ResponseValue;
+};
+
 /**
  * Prolog-JavaScript interface of the Prolog instance.
  */
-export type Prolog = {
+export interface Prolog {
   /**
    * Call a Prolog goal.  This function deals with many variations to
    * call Prolog.
@@ -152,8 +188,14 @@ export type Prolog = {
     callback?: (prolog: Prolog, answer: any) => void
   ): Promise<any>;
 
-  query(str: string): any;
-};
+  /**
+   * Calls the goal while binding input arguments.
+   *
+   * @param goal Goal to run.
+   * @param input Input variable bindings.
+   */
+  query(goal: string, input?: Record<string, PrologTerm>): Query;
+}
 
 /**
  * SWI-Prolog instance.
