@@ -44,6 +44,18 @@ console.log(swipl.prolog.query("member(X, [a, b, c]).").once().X);
 
 You can run this example with `node examples/run-on-node.js`.
 
+## Running JavaScript from Prolog
+
+This uses `eval`:
+
+```js
+swipl.prolog
+  .query("js_run_script(Script)", {
+    Script: `console.log('hello')`,
+  })
+  .once();
+```
+
 ## Build
 
 The package can be built using npm or yarn. Please use yarn to
