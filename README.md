@@ -15,23 +15,22 @@ In browser:
   (async () => {
     const swipl = await SWIPL({
       arguments: ["-q"],
-      locateFile: (url) => {
-        if (url === "swipl-web.data") {
-          return "/dist/swipl/swipl-web.data";
-        } else if (url === "swipl-web.wasm") {
-          return "/dist/swipl/swipl-web.wasm";
-        }
-        return url;
+      locateFile: (path) => {
+        return `/dist/swipl/${path}`;
       },
     });
     const query = "member(X, [a, b, c]).";
     const solutionElement = document.getElementById("solution");
-    // See https://swi-prolog.discourse.group/t/swi-prolog-in-the-browser-using-wasm/5650/1
     const firstSolution = swipl.prolog.query(query).once().X;
     solutionElement.textContent = firstSolution;
   })();
 </script>
 ```
+
+The function `locateFile` will help the browser to find the necessary
+files (`swipl-web.wasm` and `swipl-web.data`). In this case the files
+should be served along with `swipl-web.js` under the `/dist/swipl`
+directory in the web server.
 
 You can run this example by executing `npm run test:serve-http` and
 visiting <http://localhost:8080/examples/browser.html>.
@@ -40,7 +39,6 @@ In Nodejs:
 
 ```js
 const swipl = await SWIPL({ arguments: ["-q"] });
-// See https://swi-prolog.discourse.group/t/swi-prolog-in-the-browser-using-wasm/5650/1
 console.log(swipl.prolog.query("member(X, [a, b, c]).").once().X);
 ```
 
