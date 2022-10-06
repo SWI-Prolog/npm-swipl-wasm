@@ -3,3 +3,7 @@ dist/swipl/swipl.js
 dist/swipl/swipl-web.js
 dist/swipl/swipl-web.data
 dist/swipl/swipl-web.wasm
+examples/webpack/node_modules
+examples/webpack/public/*.data
+examples/webpack/public/*.wasm
+examples/webpack/public/*.js
