@@ -56,6 +56,31 @@ swipl.prolog
   .once();
 ```
 
+## Using with Webpack
+
+[Webpack](https://webpack.js.org/) is a JavaScript and resources
+bundler for large-scale frontend projects.
+
+There is an example Webpack project in `examples/webpack`. It uses
+[Asset Modules](https://webpack.js.org/guides/asset-modules/) to "load"
+necessary `.data` and `.wasm` files. The location of these files and then
+fed to `locateFile` (see above).
+
+The package `swipl-wasm` is linked into the example. In an actual project
+you would declare `swipl-wasm` as a normal dependency.
+
+To start the example:
+
+```
+cd examples/webpack
+npm install
+npm build
+npm run server
+```
+
+and visit <http://127.0.0.1:8080>. You should see the message "Hello world from
+Prolog".
+
 ## Build
 
 The package can be built using npm or yarn. Please use yarn to
@@ -80,7 +105,6 @@ The version is returned as integer `10000 × Major + 100 × Minor + Patch`.
 
 ## TODO
 
-- More examples (how to bundle with webpack)
 - Integrate with SWI-Prolog CI
 - TypeScript types for Prolog.js (and the Query interface)
 - Use EcmaScript modules as output:
