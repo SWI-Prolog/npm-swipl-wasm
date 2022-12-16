@@ -9,7 +9,6 @@
   "license": "BSD-2-Clause",
   "type": "commonjs",
   "devDependencies": {
-    "@types/emscripten": "^1.39.6",
     "@types/node": "^18.7.14",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
@@ -42,5 +41,8 @@
     "lint:types": "eslint dist --ext .ts",
     "lint:tests": "eslint tests --ext .js",
     "lint": "run-s lint:types lint:tests"
+  },
+  "peerDependencies": {
+    "@types/emscripten": "^1.39.6"
   }
 }
