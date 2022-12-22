@@ -62,10 +62,16 @@ WORKDIR /swipl-devel
 RUN git pull && git submodule update --init && \
     git checkout $SWIPL_COMMIT -b local-wasm
 
-COPY EmscriptenTargets.cmake /swipl-devel/cmake/EmscriptenTargets.cmake
-
 # Compiles everything.
-
 COPY build-swipl.sh /build-swipl.sh
 RUN chmod +x /build-swipl.sh
+
+# Generate the webassembly
+RUN /build-swipl.sh
+# Copy the results to a new directory
+RUN cp -r /swipl-devel/build.wasm /swipl-devel/build.wasm.original
+
+# Override the Emscripten Targets to embed the Webassembly and data files
+RUN sed -i 's/--preload-file/-s SINGLE_FILE --embed-file/g' /swipl-devel/cmake/EmscriptenTargets.cmake
+# Build the new webassbly
 RUN /build-swipl.sh
