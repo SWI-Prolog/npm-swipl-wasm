@@ -27,8 +27,6 @@
     "build:wasm-docker:build": "docker build -t swipl-wasm-image docker",
     "build:wasm-docker:create": "docker create --name swipl-wasm swipl-wasm-image",
     "build:wasm-docker:remove": "docker rm swipl-wasm",
-    "build:wasm-docker:extract:data": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.data dist/swipl/swipl-web.data",
-    "build:wasm-docker:extract:wasm": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.wasm dist/swipl/swipl-web.wasm",
     "build:wasm-docker:extract:web": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl-web.js",
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl.js",
     "build:wasm-docker:extract": "run-s build:wasm-docker:extract:*",

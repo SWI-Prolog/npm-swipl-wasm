@@ -62,6 +62,8 @@ WORKDIR /swipl-devel
 RUN git pull && git submodule update --init && \
     git checkout $SWIPL_COMMIT -b local-wasm
 
+COPY EmscriptenTargets.cmake /swipl-devel/cmake/EmscriptenTargets.cmake
+
 # Compiles everything.
 
 COPY build-swipl.sh /build-swipl.sh
