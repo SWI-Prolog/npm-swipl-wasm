@@ -1,6 +1,5 @@
 node_modules
-dist/swipl/swipl.js
-dist/swipl/swipl-web.js
+dist/swipl/*.js
 dist/swipl/swipl-web.data
 dist/swipl/swipl-web.wasm
 examples/webpack/node_modules

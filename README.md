@@ -38,11 +38,33 @@ visiting <http://localhost:8080/examples/browser.html>.
 In Nodejs:
 
 ```js
+const SWIPL = require("swipl-wasm/dist/swipl");
+
 const swipl = await SWIPL({ arguments: ["-q"] });
 console.log(swipl.prolog.query("member(X, [a, b, c]).").once().X);
 ```
 
 You can run this example with `node examples/run-on-node.js`.
+
+## Using single-file bundle
+
+The `swipl-wasm` package comes also with the single-file bundle. This does not
+require distributing the `.data` and `.wasm` files which are now embedded into
+the `.js` file instead.
+
+```html
+<div id="solution"></div>
+<script src="/dist/swipl/swipl-bundle.js"></script>
+<script>
+  (async () => {
+    const swipl = await SWIPL({ arguments: ["-q"] });
+    const query = "member(X, [a, b, c]).";
+    const solutionElement = document.getElementById("solution");
+    const firstSolution = swipl.prolog.query(query).once().X;
+    solutionElement.textContent = firstSolution;
+  })();
+</script>
+```
 
 ## Running JavaScript from Prolog
 
