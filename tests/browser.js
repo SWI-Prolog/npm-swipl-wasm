@@ -6,6 +6,7 @@ const puppeteer = require("puppeteer");
 function createServer() {
   return new Promise((resolve, reject) => {
     const file = new static.Server(path.join(__dirname, ".."));
+    // eslint-disable-next-line no-undef
     server = http
       .createServer((request, response) => {
         request
@@ -18,6 +19,7 @@ function createServer() {
         reject(error);
       })
       .listen(8080, "0.0.0.0", () => {
+        // eslint-disable-next-line no-undef
         resolve(server);
       });
   });
