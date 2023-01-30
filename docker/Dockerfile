@@ -32,7 +32,7 @@ RUN ./emsdk activate $EMSDK_VERSION
 
 # Downloads and builds ZLIB.
 
-ENV ZLIB_VERSION 1.2.12
+ENV ZLIB_VERSION 1.2.13
 
 RUN wget --no-verbose https://zlib.net/zlib-$ZLIB_VERSION.tar.gz -O /zlib-$ZLIB_VERSION.tar.gz
 RUN tar -xf /zlib-$ZLIB_VERSION.tar.gz --directory /
