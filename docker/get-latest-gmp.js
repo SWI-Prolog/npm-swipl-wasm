@@ -22,13 +22,4 @@ async function main() {
   }
 }
 
-function isHigherVersion(v1, v2) {
-  const [major1, minor1, patch1] = v1.split('.').map(e => parseInt(e));
-  const [major2, minor2, patch2] = v2.split('.').map(e => parseInt(e));
-
-  return major1 > major2
-    || ((major1 === major2) && minor1 > minor2)
-    || ((major1 === major2) && (minor1 === minor2) && patch1 > patch2);
-}
-
 main();
