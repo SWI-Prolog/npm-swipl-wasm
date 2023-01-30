@@ -26,7 +26,7 @@
     "dist"
   ],
   "scripts": {
-    "build:wasm-docker:build": "docker build -t swipl-wasm-image docker",
+    "build:wasm-docker:build": "docker build --build-arg SWIPL_COMMIT=$npm_package_config_swipl_commit --build-arg EMSDK_VERSION=$npm_package_config_emsdk_version --build-arg ZLIB_VERSION=$npm_package_config_zlib_version --build-arg GMP_VERSION=$npm_package_config_gmp_version -t swipl-wasm-image docker",
     "build:wasm-docker:create": "docker create --name swipl-wasm swipl-wasm-image",
     "build:wasm-docker:remove": "docker rm swipl-wasm",
     "build:wasm-docker:extract:data": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.data dist/swipl/swipl-web.data",
@@ -47,5 +47,20 @@
   },
   "peerDependencies": {
     "@types/emscripten": "^1.39.6"
+  },
+  "config": {
+    "swipl": {
+      "version": "V9.1.4",
+      "commit": "d08ed2415e67b5b9e7df16a64d88041aeb0dd654"
+    },
+    "emsdk": {
+      "version": "3.1.20"
+    },
+    "zlib": {
+      "version": "1.2.13"
+    },
+    "gmp": {
+      "version": "6.2.1"
+    }
   }
 }
