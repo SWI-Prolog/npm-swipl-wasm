@@ -23,7 +23,10 @@
     "typescript": "^4.8.4"
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.data",
+    "dist/**/*.wasm"
   ],
   "scripts": {
     "build:wasm-docker:build": "docker build -t swipl-wasm-image docker",
@@ -36,7 +39,7 @@
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl.js",
     "build:wasm-docker:extract": "run-s build:wasm-docker:extract:*",
     "build:wasm-docker": "run-s build:wasm-docker:build build:wasm-docker:create build:wasm-docker:extract build:wasm-docker:remove",
-    "build": "run-s build:wasm-docker",
+    "build": "run-s build:wasm-docker && tsc",
     "test:serve-http": "http-server . -c-1",
     "test:node": "mocha tests/node.js --timeout 20000",
     "test:browser": "mocha tests/browser.js --timeout 20000",

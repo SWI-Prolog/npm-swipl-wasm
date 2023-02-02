@@ -6,3 +6,5 @@ examples/webpack/node_modules
 examples/webpack/public/*.data
 examples/webpack/public/*.wasm
 examples/webpack/public/*.js
+dist/utils.js
+dist/utils.d.ts
