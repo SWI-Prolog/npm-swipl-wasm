@@ -22,7 +22,7 @@ RUN git config --global pull.ff only
 # Installs Emscripten.
 # See https://emscripten.org/docs/getting_started/downloads.html
 
-ENV EMSDK_VERSION 3.1.21
+ARG EMSDK_VERSION
 
 RUN git clone https://github.com/emscripten-core/emsdk.git /emsdk
 WORKDIR /emsdk
@@ -32,7 +32,7 @@ RUN ./emsdk activate $EMSDK_VERSION
 
 # Downloads and builds ZLIB.
 
-ENV ZLIB_VERSION 1.2.13
+ARG ZLIB_VERSION
 
 RUN wget --no-verbose https://zlib.net/zlib-$ZLIB_VERSION.tar.gz -O /zlib-$ZLIB_VERSION.tar.gz
 RUN tar -xf /zlib-$ZLIB_VERSION.tar.gz --directory /
@@ -42,7 +42,7 @@ RUN /build-zlib.sh
 
 # Downloads and builds GMP.
 
-ENV GMP_VERSION 6.2.1
+ARG GMP_VERSION
 
 RUN wget --no-verbose https://gmplib.org/download/gmp/gmp-$GMP_VERSION.tar.lz -O /gmp-$GMP_VERSION.tar.lz
 RUN tar -xf /gmp-$GMP_VERSION.tar.lz --directory /
@@ -56,7 +56,7 @@ RUN git clone https://github.com/SWI-Prolog/swipl-devel.git /swipl-devel
 RUN git submodule update --init
 
 # Checkout a specific commit
-ENV SWIPL_COMMIT d08ed2415e67b5b9e7df16a64d88041aeb0dd654
+ARG SWIPL_COMMIT
 
 WORKDIR /swipl-devel
 RUN git pull && git submodule update --init && \
