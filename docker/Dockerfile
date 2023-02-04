@@ -22,7 +22,7 @@ RUN git config --global pull.ff only
 # Installs Emscripten.
 # See https://emscripten.org/docs/getting_started/downloads.html
 
-ENV EMSDK_VERSION 3.1.20
+ENV EMSDK_VERSION 3.1.21
 
 RUN git clone https://github.com/emscripten-core/emsdk.git /emsdk
 WORKDIR /emsdk
@@ -32,7 +32,7 @@ RUN ./emsdk activate $EMSDK_VERSION
 
 # Downloads and builds ZLIB.
 
-ENV ZLIB_VERSION 1.2.12
+ENV ZLIB_VERSION 1.2.13
 
 RUN wget --no-verbose https://zlib.net/zlib-$ZLIB_VERSION.tar.gz -O /zlib-$ZLIB_VERSION.tar.gz
 RUN tar -xf /zlib-$ZLIB_VERSION.tar.gz --directory /
