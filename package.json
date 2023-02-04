@@ -12,7 +12,7 @@
   "types": "dist/index.d.js",
   "devDependencies": {
     "@types/node": "^18.11.18",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.49.0",
     "eslint": "^8.33.0",
     "http-server": "^14.1.1",
