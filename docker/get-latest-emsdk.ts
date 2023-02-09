@@ -3,6 +3,8 @@ import { getAllTags, getPackage, isHigherVersion, savePackage, Tag } from './uti
 async function main() {
   const data = await getAllTags({ owner: 'emscripten-core', repo: 'emsdk' });
 
+  console.log('emsdk tags', data)
+
   let bestElem: Tag | undefined;
   for (const elem of data) {
     if (/^\d+.\d+.\d+$/.test(elem.name) && (!bestElem || isHigherVersion(elem.name, bestElem.name))) {

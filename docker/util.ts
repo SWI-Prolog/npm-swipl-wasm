@@ -33,7 +33,7 @@ export async function getAllTags(options: { owner: string, repo: string }): Prom
     });
 
     if (data.length === 0)
-      return data;
+      return allTags;
 
     allTags.push(...data);
   }
