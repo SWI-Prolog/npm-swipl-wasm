@@ -38,3 +38,31 @@ export async function getAllTags(options: { owner: string, repo: string }): Prom
     allTags.push(...data);
   }
 }
+
+
+export interface IUpdateTagOptions {
+  owner: string;
+  repo: string;
+  getVersion: (tag: Tag) => string | undefined;
+  entry: string;
+}
+
+export async function updateTag(options: IUpdateTagOptions) {
+  const data = await getAllTags(options);
+
+  let bestElem: { version: string; commit: string } | undefined;
+  for (const elem of data) {
+    const version = options.getVersion(elem);
+    if (version && (!bestElem || isHigherVersion(version, bestElem.version))) {
+      bestElem = {  version, commit: elem.commit.sha }
+    }
+  }
+
+  const pkg = getPackage();
+
+  // If a higher version exists, update the package.json
+  if (bestElem && isHigherVersion(bestElem.version, pkg.config.swipl.version)) {
+    pkg.config[options.entry] = bestElem;
+    savePackage(pkg);
+  }
+}

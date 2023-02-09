@@ -57,11 +57,11 @@
   },
   "config": {
     "swipl": {
-      "version": "V9.1.4",
-      "commit": "d08ed2415e67b5b9e7df16a64d88041aeb0dd654"
+      "version": "9.0.4",
+      "commit": ""
     },
     "emsdk": {
-      "version": "3.1.31"
+      "version": "3.1.30"
     },
     "zlib": {
       "version": "1.2.13"
