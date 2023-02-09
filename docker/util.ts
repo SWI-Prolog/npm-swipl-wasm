@@ -39,7 +39,6 @@ export async function getAllTags(options: { owner: string, repo: string }): Prom
   }
 }
 
-
 export interface IUpdateTagOptions {
   owner: string;
   repo: string;
@@ -61,7 +60,7 @@ export async function updateTag(options: IUpdateTagOptions) {
   const pkg = getPackage();
 
   // If a higher version exists, update the package.json
-  if (bestElem && isHigherVersion(bestElem.version, pkg.config.swipl.version)) {
+  if (bestElem && isHigherVersion(bestElem.version, pkg.config[options.entry].version)) {
     pkg.config[options.entry] = bestElem;
     savePackage(pkg);
   }
