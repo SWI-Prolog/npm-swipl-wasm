@@ -16,7 +16,7 @@ RUN EMCC_CFLAGS=-Wno-deprecated-non-prototype emmake make
 
 # Downloads and builds GMP.
 ARG GMP_VERSION
-RUN wget --no-verbose -qO- https://gmplib.org/download/gmp/gmp-$GMP_VERSION.tar.lz | tar xvz --directory /
+RUN wget --no-verbose -qO- https://gmplib.org/download/gmp/gmp-$GMP_VERSION.tar.lz | tar x --lzip --directory /
 
 WORKDIR /gmp-$GMP_VERSION
 RUN mkdir /gmp
