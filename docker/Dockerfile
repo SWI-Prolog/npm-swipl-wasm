@@ -28,8 +28,12 @@ RUN make install
 ARG SWIPL_VERSION
 RUN git clone --depth 1 --branch V$SWIPL_VERSION --recurse-submodules https://github.com/SWI-Prolog/swipl-devel /swipl-devel -j100
 
+RUN sed -i '36 i -O1' /swipl-devel/cmake/EmscriptenTargets.cmake
+
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
+
+COPY /CMakeCache.txt /swipl-devel/build.wasm/CMakeCache.txt
 RUN mkdir -p /swipl-devel/build.wasm
 RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
   -DCMAKE_BUILD_TYPE=Release \
@@ -37,5 +41,6 @@ RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platfo
   -DZLIB_INCLUDE_DIR=/zlib-$ZLIB_VERSION \
   -DGMP_ROOT=/gmp \
   -DINSTALL_DOCUMENTATION=OFF \
+  -DCMAKE_MODULE_PATH=/cmake_checks_cache.txt \
   -G Ninja ..
 RUN ninja
