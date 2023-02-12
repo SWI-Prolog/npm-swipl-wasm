@@ -39,6 +39,5 @@ RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platfo
   -DZLIB_INCLUDE_DIR=/zlib-$ZLIB_VERSION \
   -DGMP_ROOT=/gmp \
   -DINSTALL_DOCUMENTATION=OFF \
-  -DCMAKE_MODULE_PATH=/cmake_checks_cache.txt \
   -G Ninja ..
 RUN ninja
