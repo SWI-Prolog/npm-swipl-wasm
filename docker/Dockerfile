@@ -28,8 +28,6 @@ RUN make install
 ARG SWIPL_VERSION
 RUN git clone --depth 1 --branch V$SWIPL_VERSION --recurse-submodules https://github.com/SWI-Prolog/swipl-devel /swipl-devel -j100
 
-RUN sed -i '36 i -O1' /swipl-devel/cmake/EmscriptenTargets.cmake
-
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
 
