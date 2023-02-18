@@ -1,7 +1,7 @@
 name: Update non-npm dependencies
 on:
   schedule:
-    - cron:  '*/1 * * * *'
+    - cron:  '0 0 * * *'
 jobs:
   update:
     runs-on: ubuntu-latest
