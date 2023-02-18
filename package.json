@@ -35,6 +35,7 @@
     "build:wasm-docker:extract:wasm": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.wasm dist/swipl/swipl-web.wasm",
     "build:wasm-docker:extract:web": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl-web.js",
     "build:wasm-docker:extract:bundle": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-bundle.js dist/swipl/swipl-bundle.js",
+    "build:wasm-docker:extract:bundleNoData": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-bundle-no-data.js dist/swipl/swipl-bundle-no-data.js",
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl.js",
     "build:wasm-docker:extract": "run-s build:wasm-docker:extract:*",
     "build:wasm-docker": "run-s build:wasm-docker:build build:wasm-docker:create build:wasm-docker:extract build:wasm-docker:remove",
@@ -57,8 +58,8 @@
   },
   "config": {
     "swipl": {
-      "version": "9.1.4",
-      "commit": "d08ed2415e67b5b9e7df16a64d88041aeb0dd654"
+      "version": "9.1.6",
+      "commit": "d5b5d3fcee2e372a87d250eaf542a401703e3f07"
     },
     "emsdk": {
       "version": "3.1.20"
