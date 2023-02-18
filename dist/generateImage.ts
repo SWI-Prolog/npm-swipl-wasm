@@ -8,6 +8,7 @@ function Uint8ToString(u8a: Uint8Array) {
   const CHUNK_SZ = 0x8000;
   const c: string[] = [];
   for (let i = 0; i < u8a.length; i += CHUNK_SZ) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     c.push(String.fromCharCode.apply(null, u8a.subarray(i, i + CHUNK_SZ) as any));
   }
   return c.join('');
@@ -16,6 +17,7 @@ function Uint8ToString(u8a: Uint8Array) {
 export async function generateImageBuffer(prolog: string | Buffer): Promise<Uint8Array> {
   const Module = await SWIPL({
     arguments: ['-q', '-f', 'prolog.pl'],
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     preRun: [(module: SWIPLModule) => { module.FS.writeFile('prolog.pl', prolog) }],
   });
