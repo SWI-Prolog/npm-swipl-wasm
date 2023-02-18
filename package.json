@@ -12,20 +12,25 @@
   "types": "dist/index.d.js",
   "devDependencies": {
     "@octokit/rest": "^19.0.7",
+    "@types/emscripten": "^1.39.6",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
+    "cross-fetch": "^3.1.5",
     "eslint": "^8.33.0",
     "http-server": "^14.1.1",
     "mocha": "^10.2.0",
     "node-static": "^0.7.11",
     "npm-run-all": "^4.1.5",
-    "ts-node": "^10.9.1",
     "puppeteer": "^19.6.3",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.data",
+    "dist/**/*.wasm"
   ],
   "scripts": {
     "build:wasm-docker:build": "docker build --build-arg SWIPL_VERSION=$npm_package_config_swipl_version --build-arg EMSDK_VERSION=$npm_package_config_emsdk_version --build-arg ZLIB_VERSION=$npm_package_config_zlib_version --build-arg GMP_VERSION=$npm_package_config_gmp_version -t swipl-wasm-image docker",
@@ -39,7 +44,7 @@
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl.js",
     "build:wasm-docker:extract": "run-s build:wasm-docker:extract:*",
     "build:wasm-docker": "run-s build:wasm-docker:build build:wasm-docker:create build:wasm-docker:extract build:wasm-docker:remove",
-    "build": "run-s build:wasm-docker",
+    "build": "run-s build:wasm-docker && tsc",
     "test:serve-http": "http-server . -c-1",
     "test:node": "mocha tests/node.js --timeout 20000",
     "test:browser": "mocha tests/browser.js --timeout 20000",
@@ -70,5 +75,8 @@
     "gmp": {
       "version": "6.2.1"
     }
+  },
+  "bin": {
+    "swipl-generate": "dist/bin/index.js"
   }
 }
