@@ -48,7 +48,7 @@
     "test:serve-http": "http-server . -c-1",
     "test:node": "mocha tests/node.js --timeout 20000",
     "test:browser": "mocha tests/browser.js --timeout 20000",
-    "test:minimal": "cd examples/generation && npm ci && npm run build:image && npm run test",
+    "test:minimal": "cd examples/generation && npm i && npm run build:image && npm run test",
     "test": "run-s test:node test:browser test:minimal",
     "lint:types": "eslint dist --ext .ts",
     "lint:tests": "eslint tests --ext .js",
