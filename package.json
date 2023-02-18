@@ -62,7 +62,8 @@
       "commit": "d5b5d3fcee2e372a87d250eaf542a401703e3f07"
     },
     "emsdk": {
-      "version": "3.1.20"
+      "version": "3.1.31",
+      "commit": "974d5c096bd56e42045d052a47b28198ce75e2a8"
     },
     "zlib": {
       "version": "1.2.13"
