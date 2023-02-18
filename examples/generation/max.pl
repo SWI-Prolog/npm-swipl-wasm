@@ -1,2 +1,2 @@
-max(X, Y, X) :- X >= Y, !.
-max(X, Y, Y) :- X < Y.
+myMax(X, Y, X) :- X >= Y, !.
+myMax(X, Y, Y) :- X < Y.
