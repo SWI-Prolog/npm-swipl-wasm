@@ -1,0 +1,55 @@
+name: Update non-npm dependencies
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        dependency: ['swipl', 'emsdk', 'zlib', 'gmp']
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: Commit latest release version
+        run: |
+          npm i -g yarn
+          yarn install
+
+          before=$(cat ./package.json | jq .config.${{ matrix.dependency }}.version)
+
+          yarn run update:dep:${{ matrix.dependency }}
+
+          after=$(cat ./package.json | jq .config.${{ matrix.dependency }}.version)
+
+          readarray -d . -t before <<<"${before:1:-1}"
+          readarray -d . -t after <<<"${current:1:-1}"
+
+          if   [ ! ${before[0]} == ${after[0]} ]; then
+            version="BREAKING CHANGE"
+            branchHead="breaking"
+          elif [ ! ${before[1]} == ${after[1]} ]; then
+            version="feat"
+            branchHead="feat"
+          elif [ ! ${before[2]} == ${after[2]} ]; then
+            version="fix"
+            branchHead="fix"
+          fi
+          # The name of the new branch if we need to create one
+          branch=$branchHead/update-${{ matrix.dependency }}-v${current:1:-1}
+          msg="$version: update to ${{ matrix.dependency }} v${current:1:-1}"
+          if [ $branchHead ]; then
+            git checkout -b $branch
+            git commit -am "$msg"
+            git push --set-upstream origin $branch
+            gh pr create -t "$msg" -b "$msg"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
