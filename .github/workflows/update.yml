@@ -20,7 +20,6 @@ jobs:
           node-version: 18.x
       - name: Commit latest release version
         run: |
-          npm i -g yarn
           yarn install
 
           before=$(cat ./package.json | jq .config.${{ matrix.dependency }}.version)
