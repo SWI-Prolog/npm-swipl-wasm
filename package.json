@@ -12,7 +12,9 @@
   "types": "dist/index.d.js",
   "devDependencies": {
     "@octokit/rest": "^19.0.7",
+    "@types/emscripten": "^1.39.6",
     "@types/node": "^18.14.0",
+    "cross-fetch": "^3.1.5",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "eslint": "^8.34.0",
@@ -25,7 +27,10 @@
     "typescript": "^4.9.5"
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.data",
+    "dist/**/*.wasm"
   ],
   "scripts": {
     "build:wasm-docker:build": "docker build --build-arg SWIPL_VERSION=$npm_package_config_swipl_version --build-arg EMSDK_VERSION=$npm_package_config_emsdk_version --build-arg ZLIB_VERSION=$npm_package_config_zlib_version --build-arg GMP_VERSION=$npm_package_config_gmp_version -t swipl-wasm-image docker",
@@ -35,14 +40,16 @@
     "build:wasm-docker:extract:wasm": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.wasm dist/swipl/swipl-web.wasm",
     "build:wasm-docker:extract:web": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl-web.js",
     "build:wasm-docker:extract:bundle": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-bundle.js dist/swipl/swipl-bundle.js",
+    "build:wasm-docker:extract:bundleNoData": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-bundle-no-data.js dist/swipl/swipl-bundle-no-data.js",
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl.js",
     "build:wasm-docker:extract": "run-s build:wasm-docker:extract:*",
     "build:wasm-docker": "run-s build:wasm-docker:build build:wasm-docker:create build:wasm-docker:extract build:wasm-docker:remove",
-    "build": "run-s build:wasm-docker",
+    "build": "run-s build:wasm-docker && tsc",
     "test:serve-http": "http-server . -c-1",
     "test:node": "mocha tests/node.js --timeout 20000",
     "test:browser": "mocha tests/browser.js --timeout 20000",
-    "test": "run-s test:node test:browser",
+    "test:minimal": "cd examples/generation && npm i && npm run build:image && npm run test",
+    "test": "run-s test:node test:browser test:minimal",
     "lint:types": "eslint dist --ext .ts",
     "lint:tests": "eslint tests --ext .js",
     "lint": "run-s lint:types lint:tests",
@@ -57,8 +64,8 @@
   },
   "config": {
     "swipl": {
-      "version": "9.1.4",
-      "commit": "d08ed2415e67b5b9e7df16a64d88041aeb0dd654"
+      "version": "9.1.6",
+      "commit": "d5b5d3fcee2e372a87d250eaf542a401703e3f07"
     },
     "emsdk": {
       "version": "3.1.20"
@@ -69,5 +76,8 @@
     "gmp": {
       "version": "6.2.1"
     }
+  },
+  "bin": {
+    "swipl-generate": "dist/bin/index.js"
   }
 }

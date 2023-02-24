@@ -66,6 +66,26 @@ the `.js` file instead.
 </script>
 ```
 
+## Generating an image
+
+Often you will want to bundle a pre-built image of your prolog file. The easiest way to do this is using the `swipl-generate` command to generate the image. For example in `./examples/generation` the script: `swipl-generate ./max.pl ./dist/max.ts` will generate a file `./dist/max.ts` which contains the image of `./max.pl`. This file can then be imported into your project and used as follows:
+
+```ts
+import SWIPL from './max';
+
+async function main() {
+  const Module = await SWIPL();
+  const res = Module.prolog.query('max(1, 2, 3).');
+  console.log(res.next())
+}
+
+main();
+```
+
+Note that this procedure generates a file which imports directly from `swipl-wasm/dist/loadImageDefault`, so make sure that `swipl-wasm` is a direct dependency in your project rather than a dev dependency.
+
+To generate the image data without it pre-loaded into `SWIPL` use the `--image-only` flag.
+
 ## Running JavaScript from Prolog
 
 This uses `eval`:
