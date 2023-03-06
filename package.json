@@ -13,7 +13,7 @@
   "devDependencies": {
     "@octokit/rest": "^19.0.7",
     "@types/emscripten": "^1.39.6",
-    "@types/node": "^18.14.5",
+    "@types/node": "^18.14.6",
     "cross-fetch": "^3.1.5",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
