@@ -1,7 +1,7 @@
 name: Update non-npm dependencies
 on:
   schedule:
-    - cron:  '0 0 * * *'
+    - cron:  '0 */1 * * *'
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -41,9 +41,11 @@ jobs:
             version="fix"
             branchHead="fix"
           fi
+
           # The name of the new branch if we need to create one
           branch=$branchHead/update-${{ matrix.dependency }}-v${current:1:-1}
           msg="$version: update to ${{ matrix.dependency }} v${current:1:-1}"
+
           if [ $branchHead ]; then
             git checkout -b $branch
             git commit -am "$msg"
