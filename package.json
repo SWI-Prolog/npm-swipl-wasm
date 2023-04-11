@@ -6,6 +6,14 @@
     "Jesse Wright",
     "Jan Wielemaker"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SWI-Prolog/npm-swipl-wasm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SWI-Prolog/npm-swipl-wasm/issues"
+  },
+  "homepage": "https://github.com/SWI-Prolog/npm-swipl-wasm#README",
   "license": "BSD-2-Clause",
   "type": "commonjs",
   "main": "dist/index.js",
