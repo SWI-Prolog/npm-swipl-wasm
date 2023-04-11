@@ -25,17 +25,21 @@ jobs:
         run: |
           yarn install
 
-          before=$(cat ./package.json | jq .config.${{ matrix.dependency }}.version)
+          pth=".config.${{ matrix.dependency }}.version"
+
+          before=$(cat ./package.json | jq $pth)
 
           yarn run update:dep:${{ matrix.dependency }}
 
-          after=$(cat ./package.json | jq .config.${{ matrix.dependency }}.version)
+          after=$(cat ./package.json | jq $pth)
 
           readarray -d . -t before <<<"${before:1:-1}"
           readarray -d . -t after <<<"${current:1:-1}"
 
+          echo $pth
           echo "a $before"
           echo "b $after"
+          cat ./package.json
 
           # if   [ ! ${before[0]} == ${after[0]} ]
           # then
