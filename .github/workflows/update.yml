@@ -2,7 +2,6 @@ name: Update non-npm dependencies
 on:
   schedule:
     - cron:  '0 0 * * *'
-  push:
 
 jobs:
   update:
