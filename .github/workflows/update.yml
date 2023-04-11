@@ -2,6 +2,8 @@ name: Update non-npm dependencies
 on:
   schedule:
     - cron:  '0 0 * * *'
+  push:
+    
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -17,6 +19,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
+          # Consider using lts
           node-version: 18.x
       - name: Commit latest release version
         run: |
@@ -31,13 +34,16 @@ jobs:
           readarray -d . -t before <<<"${before:1:-1}"
           readarray -d . -t after <<<"${current:1:-1}"
 
-          if   [ ! ${before[0]} == ${after[0]} ]; then
+          if   [ ! ${before[0]} == ${after[0]} ]
+          then
             version="BREAKING CHANGE"
             branchHead="breaking"
-          elif [ ! ${before[1]} == ${after[1]} ]; then
+          elif [ ! ${before[1]} == ${after[1]} ]
+          then
             version="feat"
             branchHead="feat"
-          elif [ ! ${before[2]} == ${after[2]} ]; then
+          elif [ ! ${before[2]} == ${after[2]} ]
+          then
             version="fix"
             branchHead="fix"
           fi
@@ -46,7 +52,8 @@ jobs:
           branch=$branchHead/update-${{ matrix.dependency }}-v${current:1:-1}
           msg="$version: update to ${{ matrix.dependency }} v${current:1:-1}"
 
-          if [ $branchHead ]; then
+          if [ $branchHead ]
+          then
             git checkout -b $branch
             git commit -am "$msg"
             git push --set-upstream origin $branch
