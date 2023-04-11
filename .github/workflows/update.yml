@@ -28,11 +28,11 @@ jobs:
           dep=${{ matrix.dependency }} 
           pth=".config.${{ matrix.dependency }}.version"
 
-          before=$(cat ./package.json | jq $pth)
+          before=$(cat ./package.json | jq "$pth")
 
           yarn run "update:dep:$dep"
 
-          after=$(cat ./package.json | jq $pth)
+          after=$(cat ./package.json | jq "$pth")
 
           readarray -d . -t before <<<"${before:1:-1}"
           readarray -d . -t after <<<"${current:1:-1}"
