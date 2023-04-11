@@ -34,8 +34,8 @@ jobs:
 
           after=$(cat ./package.json | jq "$pth")
 
-          readarray -d . -t before <<<"${before:1:-1}"
-          readarray -d . -t after <<<"${current:1:-1}"
+          # readarray -d . -t before <<<"${before:1:-1}"
+          # readarray -d . -t after <<<"${current:1:-1}"
 
           echo $pth
           echo $dep
