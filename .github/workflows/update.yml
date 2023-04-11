@@ -34,8 +34,8 @@ jobs:
           readarray -d . -t before <<<"${before:1:-1}"
           readarray -d . -t after <<<"${current:1:-1}"
 
-          echo $before
-          echo $after
+          echo "a $before"
+          echo "b $after"
 
           # if   [ ! ${before[0]} == ${after[0]} ]
           # then
