@@ -32,41 +32,35 @@ jobs:
 
           yarn run "update:dep:$dep"
 
-          after=$(cat ./package.json | jq "$pth")
+          current=$(cat ./package.json | jq "$pth")
 
-          # readarray -d . -t before <<<"${before:1:-1}"
-          # readarray -d . -t after <<<"${current:1:-1}"
+          readarray -d . -t before <<<"${before:1:-1}"
+          readarray -d . -t after <<<"${current:1:-1}"
 
-          echo $pth
-          echo $dep
-          echo "a $before"
-          echo "b $after"
-          cat ./package.json
+          if   [ ! ${before[0]} == ${after[0]} ]
+          then
+            version="BREAKING CHANGE"
+            branchHead="breaking"
+          elif [ ! ${before[1]} == ${after[1]} ]
+          then
+            version="feat"
+            branchHead="feat"
+          elif [ ! ${before[2]} == ${after[2]} ]
+          then
+            version="fix"
+            branchHead="fix"
+          fi
 
-          # if   [ ! ${before[0]} == ${after[0]} ]
-          # then
-          #   version="BREAKING CHANGE"
-          #   branchHead="breaking"
-          # elif [ ! ${before[1]} == ${after[1]} ]
-          # then
-          #   version="feat"
-          #   branchHead="feat"
-          # elif [ ! ${before[2]} == ${after[2]} ]
-          # then
-          #   version="fix"
-          #   branchHead="fix"
-          # fi
+          # The name of the new branch if we need to create one
+          branch=$branchHead/update-${{ matrix.dependency }}-v${current:1:-1}
+          msg="$version: update to ${{ matrix.dependency }} v${current:1:-1}"
 
-          # # The name of the new branch if we need to create one
-          # branch=$branchHead/update-${{ matrix.dependency }}-v${current:1:-1}
-          # msg="$version: update to ${{ matrix.dependency }} v${current:1:-1}"
-
-          # if [ $branchHead ]
-          # then
-          #   git checkout -b $branch
-          #   git commit -am "$msg"
-          #   git push --set-upstream origin $branch
-          #   gh pr create -t "$msg" -b "$msg"
-          # fi
+          if [ $branchHead ]
+          then
+            git checkout -b $branch
+            git commit -am "$msg"
+            git push --set-upstream origin $branch
+            gh pr create -t "$msg" -b "$msg"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
