@@ -25,11 +25,12 @@ jobs:
         run: |
           yarn install
 
+          dep=${{ matrix.dependency }} 
           pth=".config.${{ matrix.dependency }}.version"
 
           before=$(cat ./package.json | jq $pth)
 
-          yarn run update:dep:${{ matrix.dependency }}
+          yarn run update:dep:$dep
 
           after=$(cat ./package.json | jq $pth)
 
@@ -37,6 +38,7 @@ jobs:
           readarray -d . -t after <<<"${current:1:-1}"
 
           echo $pth
+          echo $dep
           echo "a $before"
           echo "b $after"
           cat ./package.json
