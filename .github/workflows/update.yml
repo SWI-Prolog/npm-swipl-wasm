@@ -30,7 +30,7 @@ jobs:
 
           before=$(cat ./package.json | jq $pth)
 
-          yarn run update:dep:$dep
+          yarn run "update:dep:$dep"
 
           after=$(cat ./package.json | jq $pth)
 
