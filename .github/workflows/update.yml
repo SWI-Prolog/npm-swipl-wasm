@@ -25,13 +25,10 @@ jobs:
         run: |
           yarn install
 
-          dep=${{ matrix.dependency }} 
           pth=".config.${{ matrix.dependency }}.version"
 
           before=$(cat ./package.json | jq "$pth")
-
-          yarn run "update:dep:$dep"
-
+          yarn run "update:dep:${{ matrix.dependency }}"
           current=$(cat ./package.json | jq "$pth")
 
           readarray -d . -t before <<<"${before:1:-1}"
