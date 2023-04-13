@@ -5,7 +5,9 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
   for (const [SWIPL, name] of [
     [require("../dist/swipl-node"), 'node'],
     [require("../dist/swipl/swipl-web"), 'web'],
-    [require("../dist/swipl/swipl-bundle"), 'bundle']
+    [require("../dist/swipl/swipl-bundle"), 'bundle'],
+    [require("../dist"), '../dist'],
+    [require(".."), '..'],
   ]) {
 
     const addedParams = name === 'web' ? {
