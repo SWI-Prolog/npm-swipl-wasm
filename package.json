@@ -20,12 +20,15 @@
   "types": "dist/index.d.ts",
   "devDependencies": {
     "@octokit/rest": "^19.0.7",
+    "@qiwi/semantic-release-gh-pages-plugin": "^5.2.5",
     "@types/emscripten": "^1.39.6",
+    "@types/fs-extra": "^11.0.1",
     "@types/node": "^18.16.3",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",
     "cross-fetch": "^3.1.5",
     "eslint": "^8.39.0",
+    "fs-extra": "^11.1.1",
     "http-server": "^14.1.1",
     "mocha": "^10.2.0",
     "node-static": "^0.7.11",
@@ -33,7 +36,9 @@
     "puppeteer": "^20.1.0",
     "semantic-release": "^19.0.5",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.0.2"
   },
   "files": [
     "dist/**/*.js",
@@ -66,7 +71,9 @@
     "update:dep:gmp": "ts-node scripts/get-latest-gmp",
     "update:dep:swipl": "ts-node scripts/get-latest-swipl",
     "update:dep:zlib": "ts-node scripts/get-latest-zlib",
-    "update:dep": "run-s update:dep:*"
+    "update:dep": "run-s update:dep:*",
+    "bundle:webpack": "webpack --config webpack.config.js",
+    "bundle:latest": "ts-node scripts/post-webpack"
   },
   "peerDependencies": {
     "@types/emscripten": "^1.39.6"
@@ -88,5 +95,28 @@
   },
   "bin": {
     "swipl-generate": "dist/bin/index.js"
+  },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "verifyConditions": [
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@qiwi/semantic-release-gh-pages-plugin"
+    ],
+    "publish": [
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      [
+        "@qiwi/semantic-release-gh-pages-plugin",
+        {
+          "msg": "add version <%= nextRelease.gitTag %>",
+          "branch": "pages",
+          "add": true,
+          "src": "bundle"
+        }
+      ]
+    ]
   }
 }

@@ -123,6 +123,54 @@ npm run server
 and visit <http://127.0.0.1:8080>. You should see the message "Hello world from
 Prolog".
 
+
+## Browser Builds
+
+For convenience we provide deploy bundled versions of the SWI-Prolog on github pages which can be directly used in an HTML document.
+
+There is a bundled version for each release - which can be found at the url:
+<p align=center>
+https://SWI-Prolog.github.io/npm-swipl-wasm/vMajor/vMinor/vPatch/index.js
+
+for instance v3.3.0 has the url https://SWI-Prolog.github.io/npm-swipl-wasm/3/3/0/index.js. We also have shortcuts for:
+ - the latest version https://SWI-Prolog.github.io/npm-swipl-wasm/latest/index.js,
+ - the latest of each major version https://SWI-Prolog.github.io/npm-swipl-wasm/vMajor/latest/index.js, and
+ - the latest of each minor version https://SWI-Prolog.github.io/npm-swipl-wasm/vMajor/vMinor/latest/index.js
+
+Available versions can be browsed at https://github.com/SWI-Prolog/npm-swipl-wasm/tree/pages.
+
+With this approach the following script will work
+
+```html
+<div id="solution"></div>
+<script src="https://SWI-Prolog.github.io/npm-swipl-wasm/3/3/0/index.js"></script>
+<script>
+  (async () => {
+    const swipl = await SWIPL({ arguments: ["-q"] });
+    const query = "member(X, [a, b, c]).";
+    const solutionElement = document.getElementById("solution");
+    const firstSolution = swipl.prolog.query(query).once().X;
+    solutionElement.textContent = firstSolution;
+  })();
+</script>
+```
+
+Dynamic imports are also available with the `dynamic-import.js` import name and can be used as follows:
+
+```html
+<div id="solution"></div>
+<script>
+  (async () => {
+    const { SWIPL } = await import("https://SWI-Prolog.github.io/npm-swipl-wasm/3/3/0/dynamic-import.js");
+    const swipl = await SWIPL({ arguments: ["-q"] });
+    const query = "member(X, [a, b, c]).";
+    const solutionElement = document.getElementById("solution");
+    const firstSolution = swipl.prolog.query(query).once().X;
+    solutionElement.textContent = firstSolution;
+  })();
+</script>
+```
+
 ## Build
 
 The package can be built using npm or yarn. Please use yarn to
