@@ -1,0 +1,10 @@
+import os
+emsdk_path = os.path.dirname(os.getenv('EM_CONFIG')).replace('\\', '/')
+# NODE_JS = emsdk_path + '/node/15.14.0_64bit/bin/node'
+# NODE_JS = '/usr/local/bin/node'
+NODE_JS = '/usr/bin/node'
+LLVM_ROOT = emsdk_path + '/upstream/bin'
+BINARYEN_ROOT = emsdk_path + '/upstream'
+EMSCRIPTEN_ROOT = emsdk_path + '/upstream/emscripten'
+COMPILER_ENGINE = NODE_JS
+JS_ENGINES = [NODE_JS]
