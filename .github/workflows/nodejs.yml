@@ -28,7 +28,6 @@ jobs:
       with:
         node-version: 20.x
     - run: yarn install --immutable
-    - run: yarn run lint
     - run: yarn run build
     - uses: actions/upload-artifact@v3
       with:
