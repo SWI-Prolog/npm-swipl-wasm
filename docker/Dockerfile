@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y bzip2 lzip ninja-build xz-utils
 
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt install -y nodejs
-COPY ./.emscripten /emsdk/.emscripten
+RUN sed -i 's/NODE_JS .*/NODE_JS = "\/usr\/bin\/node"/' /emsdk/.emscripten
 
 # Downloads and builds ZLIB.
 ARG ZLIB_VERSION
@@ -28,11 +28,11 @@ RUN git clone --depth 1 --branch $PCRE2_NAME https://github.com/PCRE2Project/pcr
 # Build PCRE2
 WORKDIR /swipl-devel/pcre2
 RUN emcmake cmake -DCMAKE_INSTALL_PREFIX=/ \
-                  -DPCRE2GREP_SUPPORT_JIT=OFF \
-                  -DZLIB_LIBRARY=/zlib-$ZLIB_VERSION/libz.a \
-                  -DZLIB_INCLUDE_DIR=/zlib-$ZLIB_VERSION \
-                  -DUSE_GMP=OFF \
-                  -G Ninja .. $@
+  -DPCRE2GREP_SUPPORT_JIT=OFF \
+  -DZLIB_LIBRARY=/zlib-$ZLIB_VERSION/libz.a \
+  -DZLIB_INCLUDE_DIR=/zlib-$ZLIB_VERSION \
+  -DUSE_GMP=OFF \
+  -G Ninja .. $@
 
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
