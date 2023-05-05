@@ -19,14 +19,6 @@ RUN emconfigure ./configure
 RUN EMCC_CFLAGS=-Wno-deprecated-non-prototype emmake make
 
 # Downloads and builds GMP.
-ARG GMP_VERSION
-RUN wget --no-verbose -qO- https://gmplib.org/download/gmp/gmp-$GMP_VERSION.tar.lz | tar x --lzip --directory /
-
-WORKDIR /gmp-$GMP_VERSION
-RUN mkdir /gmp
-RUN emconfigure ./configure --host=none --disable-assembly --prefix=/gmp
-RUN make
-RUN make install
 
 # Clones SWI-Prolog.
 ARG SWIPL_VERSION
@@ -37,9 +29,8 @@ RUN git clone --depth 1 --branch pcre2-10.42 --recurse-submodules https://github
 WORKDIR /swipl-devel/pcre2
 RUN emcmake cmake -DCMAKE_INSTALL_PREFIX=/ \
                   -DPCRE2GREP_SUPPORT_JIT=OFF \
-                  -DZLIB_LIBRARY=/zlib-1.2.13/libz.a \
-                  -DZLIB_INCLUDE_DIR=/zlib-1.2.13 \
-                  # -DGMP_ROOT=/gmp \
+                  -DZLIB_LIBRARY=/zlib-$ZLIB_VERSION/libz.a \
+                  -DZLIB_INCLUDE_DIR=/zlib-$ZLIB_VERSION \
                   -DUSE_GMP=OFF \
                   -G Ninja .. $@
 
@@ -56,5 +47,4 @@ RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platfo
 	-G Ninja .. $@
 RUN ninja
 
-RUN ctest -j 20
-RUN cat /swipl-devel/build.wasm/Testing/Temporary/LastTest.log
+RUN ctest -j 20 --stop-on-failure

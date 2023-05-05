@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        dependency: ['swipl', 'emsdk', 'zlib', 'gmp']
+        dependency: ['swipl', 'emsdk', 'zlib']
 
     steps:
       - uses: actions/checkout@v3
