@@ -77,5 +77,11 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       const atom = swipl.prolog.query("X = atom").once().X;
       assert.strictEqual(atom, "atom");
     });
+
+    it(`[${name}] ` + "should do regex operations enabled by pcre2", async () => {
+      const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
+      const atom = swipl.prolog.query("X = atom").once().X;
+      assert.strictEqual(atom, "atom");
+    });
   }
 });

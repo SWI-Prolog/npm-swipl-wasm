@@ -6,7 +6,7 @@ FROM emscripten/emsdk:$EMSDK_VERSION
 # Installs build dependencies.
 RUN apt-get update && apt-get install -y bzip2 lzip ninja-build xz-utils
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt install -y nodejs
 COPY ./.emscripten /emsdk/.emscripten
 
@@ -18,14 +18,14 @@ WORKDIR /zlib-$ZLIB_VERSION
 RUN emconfigure ./configure
 RUN EMCC_CFLAGS=-Wno-deprecated-non-prototype emmake make
 
-# Downloads and builds GMP.
-
 # Clones SWI-Prolog.
 ARG SWIPL_VERSION
 RUN git clone --depth 1 --recurse-submodules https://github.com/SWI-Prolog/swipl-devel /swipl-devel -j100
 
+ARG PCRE2_NAME
+RUN git clone --depth 1 --branch $PCRE2_NAME https://github.com/PCRE2Project/pcre2 /swipl-devel/pcre2
 
-RUN git clone --depth 1 --branch pcre2-10.42 --recurse-submodules https://github.com/PCRE2Project/pcre2 /swipl-devel/pcre2
+# Build PCRE2
 WORKDIR /swipl-devel/pcre2
 RUN emcmake cmake -DCMAKE_INSTALL_PREFIX=/ \
                   -DPCRE2GREP_SUPPORT_JIT=OFF \
