@@ -173,8 +173,8 @@ Dynamic imports are also available with the `dynamic-import.js` import name and 
 
 ## Build
 
-The package can be built using npm or yarn. Please use yarn to
-add new dependencies and update yarn.lock file. SWI-Prolog WebAssembly
+The package can be built using npm. Please use npm to
+add new dependencies and update package-lock.json file. SWI-Prolog WebAssembly
 version is currently built inside Docker with Emscripten.
 
 ## Versioning
