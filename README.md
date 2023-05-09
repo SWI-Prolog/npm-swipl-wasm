@@ -4,6 +4,38 @@ SWI-Prolog WebAssembly build as a NPM package. Please see this page
 for ongoing progress and information:
 <https://swi-prolog.discourse.group/t/swi-prolog-in-the-browser-using-wasm/5650>
 
+## Quickly Getting Started
+
+The easiest way to get started is my importing swipl-wasm into your npm project.
+It imported for both node and browser builds as follows:
+
+script.js
+```js
+import SWIPL from "swipl-wasm";
+
+async function main() {
+  const swipl = await SWIPL({ arguments: ["-q"] });
+  console.log(swipl.prolog.query("member(X, [a, b, c]).").once().X);
+}
+
+main();
+```
+
+For those who have not done this before you will first need to [install node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+After doing this you can make a new project as follows:
+
+```bash
+# Make the project directory
+mkdir my-swipl-project && cd ./my-swipl-project
+# Initialise the project
+npm init
+# Install swipl-wasm
+npm i swipl-wasm
+```
+
+After this place the above code in `script.js` in the root of your directory and run `node script.js`
+to run the script.
+
 ## Usage
 
 In browser:
@@ -38,7 +70,7 @@ visiting <http://localhost:8080/examples/browser.html>.
 In Nodejs:
 
 ```js
-const SWIPL = require("swipl-wasm/dist/swipl");
+const SWIPL = require("swipl-wasm");
 
 const swipl = await SWIPL({ arguments: ["-q"] });
 console.log(swipl.prolog.query("member(X, [a, b, c]).").once().X);
