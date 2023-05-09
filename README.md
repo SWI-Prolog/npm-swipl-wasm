@@ -7,7 +7,7 @@ for ongoing progress and information:
 ## Quickly Getting Started
 
 The easiest way to get started is my importing swipl-wasm into your npm project.
-It imported for both node and browser as follows:
+It imported for both node and browser builds as follows:
 
 script.js
 ```js
