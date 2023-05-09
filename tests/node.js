@@ -14,6 +14,33 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       locateFile: (name) => path.join(__dirname, '..', 'dist', 'swipl', name)
     } : {};
 
+    const packages = [
+      'lists',
+      'gensym',
+      'system',
+      'terms',
+      'url',
+      'charsio',
+      'qsave',
+      'base64',
+      'date',
+      'prolog_jiti',
+      'sha',
+      'dif',
+      'semweb/turtle',
+      // 'pcre',
+      // 'uuid',
+      // 'http/http_open',
+    ];
+
+    for (const package of packages) {
+      it(`[${name}] ` + "should support the package" + package, async () => {
+        const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
+        const importResult = swipl.prolog.query(`use_module(library(${package})).`).once().success;
+        assert.strictEqual(importResult, true);
+      });
+    }
+
     it(`[${name}] ` + "should conform to certain typing", async () => {
       assert.strictEqual(typeof SWIPL, "function");
   
