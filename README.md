@@ -11,7 +11,7 @@ It imported for both node and browser builds as follows:
 
 script.js
 ```js
-const SWIPL = require("swipl-wasm");
+import SWIPL from "swipl-wasm";
 
 async function main() {
   const swipl = await SWIPL({ arguments: ["-q"] });
