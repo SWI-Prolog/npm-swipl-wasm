@@ -77,9 +77,16 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
     });
   
     it(`[${name}] ` + "should run throwing query", async () => {
+      const errorMessages = [];
+      const log = console.log;
+      console.log = (message) => errorMessages.push(message);
+
       const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
       const response = swipl.prolog.query("throw(error(test, _))").once();
       assert.strictEqual(response.error, true);
+
+      console.log = log;
+      assert.deepEqual(errorMessages, ["Unknown error term: test"]);
     });
   
     it(`[${name}] ` + "should eval javascript", async () => {
