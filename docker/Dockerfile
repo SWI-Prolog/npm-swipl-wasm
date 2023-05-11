@@ -6,45 +6,48 @@ FROM emscripten/emsdk:$EMSDK_VERSION
 # Installs build dependencies.
 RUN apt-get update && apt-get install -y bzip2 lzip ninja-build xz-utils
 
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt install -y nodejs
 RUN sed -i 's/NODE_JS .*/NODE_JS = "\/usr\/bin\/node"/' /emsdk/.emscripten
 
-# Downloads and builds ZLIB.
+# Download dependency sources
+WORKDIR /wasm
 ARG ZLIB_VERSION
-RUN wget --no-verbose -qO- https://zlib.net/zlib-$ZLIB_VERSION.tar.gz | tar xvz --directory /
+ARG PCRE_VERSION
+RUN wget --no-verbose -qO- https://zlib.net/zlib-$ZLIB_VERSION.tar.gz | tar xvz
+RUN git clone --branch=$PCRE_VERSION --depth 1 https://github.com/PCRE2Project/pcre2
 
-WORKDIR /zlib-$ZLIB_VERSION
-RUN emconfigure ./configure
+# Build the dependencies and install them in /wasm
+WORKDIR /wasm/zlib-$ZLIB_VERSION
+RUN emconfigure ./configure --static --prefix=/wasm
 RUN EMCC_CFLAGS=-Wno-deprecated-non-prototype emmake make
+RUN emmake make install
 
-# Clones SWI-Prolog.
-ARG SWIPL_VERSION
-RUN git clone --depth 1 --recurse-submodules https://github.com/SWI-Prolog/swipl-devel /swipl-devel -j100
-
-ARG PCRE2_NAME
-RUN git clone --depth 1 --branch $PCRE2_NAME https://github.com/PCRE2Project/pcre2 /swipl-devel/pcre2
-
-# Build PCRE2
-WORKDIR /swipl-devel/pcre2
-RUN emcmake cmake -DCMAKE_INSTALL_PREFIX=/ \
+WORKDIR /wasm/pcre2/build
+RUN emcmake cmake -DCMAKE_INSTALL_PREFIX=/wasm \
   -DPCRE2GREP_SUPPORT_JIT=OFF \
-  -DZLIB_LIBRARY=/zlib-$ZLIB_VERSION/libz.a \
-  -DZLIB_INCLUDE_DIR=/zlib-$ZLIB_VERSION \
-  -DUSE_GMP=OFF \
   -G Ninja .. $@
+RUN ninja && ninja install
+
+# Clone SWI-Prolog.  Only make a shallow clone and only clone the
+# submodules we need at depth 1.
+WORKDIR /
+RUN git clone --depth 1 https://github.com/SWI-Prolog/swipl-devel
+RUN cd swipl-devel && git submodule update --init --depth 1 \
+    packages/chr packages/clib packages/clpqr packages/http packages/nlp \
+    packages/pcre packages/plunit packages/sgml packages/RDF \
+    packages/semweb packages/zlib
 
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
 RUN mkdir -p /swipl-devel/build.wasm
 RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
   -DCMAKE_BUILD_TYPE=Release \
-  -DZLIB_LIBRARY=/zlib-$ZLIB_VERSION/libz.a \
-  -DZLIB_INCLUDE_DIR=/zlib-$ZLIB_VERSION \
-	-DCMAKE_FIND_ROOT_PATH=/ \
-	-DUSE_GMP=OFF \
-	-DINSTALL_DOCUMENTATION=OFF \
-	-G Ninja .. $@
+  -DCMAKE_FIND_ROOT_PATH=/wasm \
+  -DUSE_GMP=OFF \
+  -DINSTALL_DOCUMENTATION=OFF \
+  -DNODE_JS_EXECUTABLE=/usr/bin/node \
+  -G Ninja ..
 RUN ninja
 
-RUN ctest -j 20 --stop-on-failure
+RUN ctest -j $(nproc) --output-on-failure
