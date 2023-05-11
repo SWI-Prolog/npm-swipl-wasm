@@ -13,9 +13,9 @@ RUN sed -i 's/NODE_JS .*/NODE_JS = "\/usr\/bin\/node"/' /emsdk/.emscripten
 # Download dependency sources
 WORKDIR /wasm
 ARG ZLIB_VERSION
-ARG PCRE_VERSION
+ARG PCRE2_NAME
 RUN wget --no-verbose -qO- https://zlib.net/zlib-$ZLIB_VERSION.tar.gz | tar xvz
-RUN git clone --branch=$PCRE_VERSION --depth 1 https://github.com/PCRE2Project/pcre2
+RUN git clone --branch=$PCRE2_NAME --depth 1 https://github.com/PCRE2Project/pcre2
 
 # Build the dependencies and install them in /wasm
 WORKDIR /wasm/zlib-$ZLIB_VERSION

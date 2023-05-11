@@ -80,10 +80,8 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
 
     it(`[${name}] ` + "should do regex operations enabled by pcre2", async () => {
       const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
-      const importResult = Module.prolog.query("use_module(library(pcre)).").once().success;
-      assert.strictEqual(importResult, true);
-      const atom = swipl.prolog.query("re_match(\"^needle\"/i, \"Needle in a haystack\").").once();
-      assert.strictEqual(atom, "atom");
+      assert.strictEqual(swipl.prolog.query("use_module(library(pcre)).").once().success, true);
+      assert.strictEqual(swipl.prolog.query("re_match(\"^needle\"/i, \"Needle in a haystack\").").once().success, true);
     });
   }
 });
