@@ -1,5 +1,5 @@
 import { getPackage, isHigherVersion, savePackage } from './util';
-import { fetch } from 'cross-fetch';
+import { fetch } from '@inrupt/universal-fetch';
 
 async function main() {
   const downloads = await fetch('https://gmplib.org/download/gmp/');
