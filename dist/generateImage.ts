@@ -3,6 +3,7 @@
 import SWIPL from './swipl/swipl-bundle';
 import fs from 'fs';
 import { fetch } from '@inrupt/universal-fetch';
+import { readFileSync } from 'fs-extra';
 
 function Uint8ToString(u8a: Uint8Array) {
   const CHUNK_SZ = 0x8000;
@@ -14,12 +15,21 @@ function Uint8ToString(u8a: Uint8Array) {
   return c.join('');
 }
 
-export async function generateImageBuffer(prolog: string | Buffer): Promise<Uint8Array> {
+interface Options {
+  name?: string;
+  copyDir?: string;
+}
+
+export async function generateImageBuffer(prolog: string | Buffer, options?: Options): Promise<Uint8Array> {
   const Module = await SWIPL({
-    arguments: ['-q', '-f', 'prolog.pl'],
+    arguments: ['-q', '-f', options?.name ?? 'prolog.pl'],
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    preRun: [(module: SWIPLModule) => { module.FS.writeFile('prolog.pl', prolog) }],
+    preRun: [(module: SWIPLModule) => {
+      module.FS.
+
+      module.FS.writeFile(options?.name ?? 'prolog.pl', prolog)
+    }],
   });
 
   Module.prolog.query("qsave_program('prolog.pvm')").once();

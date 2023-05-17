@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:image": "swipl-generate ./max.pl ./dist/max.ts",
-    "build:remote": "swipl-generate https://raw.githubusercontent.com/eyereasoner/eye/master/eye.pl ./dist/eye.ts",
+    "build:image": "swipl-generate ./project/pack.pl ./dist/max.ts --copy-dir=./project",
     "test": "ts-node dist/main.ts"
   },
   "keywords": [],
