@@ -8,13 +8,13 @@ jobs:
 
     strategy:
       matrix:
-        dependency: ['swipl', 'emsdk', 'zlib', 'gmp']
+        dependency: ['swipl', 'emsdk', 'zlib', 'pcre2']
 
     steps:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           # Consider using lts

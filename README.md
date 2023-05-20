@@ -209,6 +209,21 @@ The package can be built using npm. Please use npm to
 add new dependencies and update package-lock.json file. SWI-Prolog WebAssembly
 version is currently built inside Docker with Emscripten.
 
+### Development
+
+To develop with this package, clone the repository and run:
+
+```
+# Install dependencies
+npm ci
+# Build the WebAssembly
+npm run build
+# Run tests
+npm t
+```
+
+*Note* You need Docker and Node 16 or higher to installed build the package.
+
 ## Versioning
 
 The package uses its own versioning scheme using semver. It is
