@@ -100,7 +100,7 @@ the `.js` file instead.
 
 ## Generating an image
 
-Often you will want to bundle a pre-built image of your prolog file. The easiest way to do this is using the `swipl-generate` command to generate the image. For example in `./examples/generation` the script: `swipl-generate ./max.pl ./dist/max.ts` will generate a file `./dist/max.ts` which contains the image of `./max.pl`. This file can then be imported into your project and used as follows:
+Often you will want to bundle a pre-built image of your Prolog file. The easiest way to do this is using the `swipl-generate` command to generate the image. For example in `./examples/generation` the script: `swipl-generate ./max.pl ./dist/max.ts` will generate a file `./dist/max.ts` which contains the image of `./max.pl`. This file can then be imported into your project and used as follows:
 
 ```ts
 import SWIPL from './max';
