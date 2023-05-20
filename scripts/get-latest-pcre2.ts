@@ -1,4 +1,3 @@
-
 import { updateTag } from './util';
 
 updateTag({
