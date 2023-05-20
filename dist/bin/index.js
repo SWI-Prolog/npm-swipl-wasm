@@ -13,7 +13,7 @@ async function mainFunc() {
   let args = process.argv.slice(2);
 
   const fn = process.argv.includes('--image-only') ? generateImageFile : generateLoadedImageFile;
-  args = args.filter(elem => elem !== '--image-only');
+  args = args.filter(elem => elem !== '--image-only' && !elem.startsWith('--copy-dir'));
 
   if (args.length !== 2) {
     throw new Error('Expected exactly 2 inputs, input prolog (.pl) file and output file');

@@ -26,7 +26,6 @@
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
     "eslint": "^8.40.0",
-    "fs-extra": "^11.1.1",
     "http-server": "^14.1.1",
     "mocha": "^10.2.0",
     "node-static": "^0.7.11",
@@ -121,6 +120,7 @@
   },
   "dependencies": {
     "@inrupt/universal-fetch": "^1.0.1",
-    "@types/emscripten": "^1.39.6"
+    "@types/emscripten": "^1.39.6",
+    "fs-extra": "^11.1.1"
   }
 }
