@@ -49,11 +49,11 @@ export interface IUpdateTagOptions {
 export async function updateTag(options: IUpdateTagOptions) {
   const data = await getAllTags(options);
 
-  let bestElem: { version: string; commit: string } | undefined;
+  let bestElem: { version: string; commit: string; name?: string } | undefined;
   for (const elem of data) {
     const version = options.getVersion(elem);
     if (version && (!bestElem || isHigherVersion(version, bestElem.version))) {
-      bestElem = {  version, commit: elem.commit.sha }
+      bestElem = {  version, commit: elem.commit.sha, name: elem.name };
     }
   }
 
