@@ -28,13 +28,13 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       'sha',
       'dif',
       'semweb/turtle',
-      // 'pcre',
+      'pcre',
       // 'uuid',
       // 'http/http_open',
     ];
 
     for (const package of packages) {
-      it(`[${name}] ` + "should support the package" + package, async () => {
+      it(`[${name}] ` + "should support the package " + package, async () => {
         const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
         const importResult = swipl.prolog.query(`use_module(library(${package})).`).once().success;
         assert.strictEqual(importResult, true);
@@ -116,6 +116,14 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
       const atom = swipl.prolog.query("X is 555555555555555555555555555555555555555555555555555555").once().X;
       assert.strictEqual(atom, 555555555555555555555555555555555555555555555555555555n);
+    });
+
+    it(`[${name}] ` + "should do regex operations enabled by pcre2", async () => {
+      const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
+      assert.strictEqual(swipl.prolog.query("use_module(library(pcre)).").once().success, true);
+      assert.strictEqual(swipl.prolog.query("re_match(\"^needle\"/i, \"Needle in a haystack\").").once().success, true);
+      assert.strictEqual(swipl.prolog.query("re_match(\"^[0-9]{4}$\"/i, \"2023\").").once().success, true);
+      assert.strictEqual(swipl.prolog.query("re_match(\"^[0-9]{4}$\"/i, \"202\").").once().success, false);
     });
   }
 });
