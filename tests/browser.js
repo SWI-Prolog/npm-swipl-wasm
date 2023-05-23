@@ -29,7 +29,7 @@ describe("SWI-Prolog WebAssembly on Browser", () => {
   it("should run browser version through Puppeteer", async () => {
     const server = await createServer();
     try {
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({ headless: "new" });
       try {
         const page = await browser.newPage();
         page.setDefaultTimeout(5000);
