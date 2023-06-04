@@ -55,6 +55,7 @@ jobs:
         name: dist
         path: dist
     - run: npm test
+    - run: npm run bundle:webpack
 
   release:
     if: ${{ github.ref == 'refs/heads/master' }}
