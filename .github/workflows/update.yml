@@ -59,7 +59,7 @@ jobs:
             gh pr create -t "$msg" -b "$msg"
             
             if [ ! $branchHead == "breaking" ]; then
-              gh pr merge $branch --auto --merge
+              gh pr merge $branch --auto --squash
             fi
           fi
         env:
