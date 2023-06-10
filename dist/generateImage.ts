@@ -14,30 +14,30 @@ function Uint8ToString(u8a: Uint8Array) {
   return c.join('');
 }
 
-export async function generateImageBuffer(prolog: string | Buffer): Promise<Uint8Array> {
+export async function generateImageBuffer(prolog: string | Buffer, fname = 'prolog.pl'): Promise<Uint8Array> {
   const Module = await SWIPL({
-    arguments: ['-q', '-f', 'prolog.pl'],
+    arguments: ['-q', '-f', fname],
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    preRun: [(module: SWIPLModule) => { module.FS.writeFile('prolog.pl', prolog) }],
+    preRun: [(module: SWIPLModule) => { module.FS.writeFile(fname, prolog) }],
   });
 
   Module.prolog.query("qsave_program('prolog.pvm')").once();
   return Module.FS.readFile('prolog.pvm')
 }
 
-export async function generateImageString(prolog: string | Buffer): Promise<string> {
-  return btoa(Uint8ToString(await generateImageBuffer(prolog)));
+export async function generateImageString(prolog: string | Buffer, fname?: string): Promise<string> {
+  return btoa(Uint8ToString(await generateImageBuffer(prolog, fname)));
 }
 
-export async function generateImageFileString(prolog: string | Buffer): Promise<string> {
-  return `export default "${await generateImageString(prolog)}"\n`;
+export async function generateImageFileString(prolog: string | Buffer, fname?: string): Promise<string> {
+  return `export default "${await generateImageString(prolog, fname)}"\n`;
 }
 
-export async function generateLoadedImageFileString(prolog: string | Buffer) {
+export async function generateLoadedImageFileString(prolog: string | Buffer, fname?: string) {
   return 'import loadImage from "swipl-wasm/dist/loadImageDefault"\n' +
     'import strToBuffer from "swipl-wasm/dist/strToBuffer"\n\n' +
-    `export default loadImage(strToBuffer("${await generateImageString(prolog)}"))\n`;
+    `export default loadImage(strToBuffer("${await generateImageString(prolog, fname)}"))\n`;
 }
 
 function dereference(prologPath: string): Promise<string> | Buffer {
