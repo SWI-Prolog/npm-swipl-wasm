@@ -6,10 +6,6 @@ FROM emscripten/emsdk:$EMSDK_VERSION
 # Installs build dependencies.
 RUN apt-get update && apt-get install -y bzip2 lzip ninja-build xz-utils
 
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt install -y nodejs
-RUN sed -i 's/NODE_JS .*/NODE_JS = "\/usr\/bin\/node"/' /emsdk/.emscripten
-
 # Download dependency sources
 WORKDIR /wasm
 ARG ZLIB_VERSION
