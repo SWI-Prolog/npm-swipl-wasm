@@ -43,7 +43,6 @@ RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platfo
   -DCMAKE_FIND_ROOT_PATH=/wasm \
   -DUSE_GMP=OFF \
   -DINSTALL_DOCUMENTATION=OFF \
-  -DNODE_JS_EXECUTABLE=/usr/bin/node \
   -G Ninja ..
 RUN ninja
 
