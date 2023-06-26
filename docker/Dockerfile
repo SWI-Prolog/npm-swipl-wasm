@@ -6,10 +6,6 @@ FROM emscripten/emsdk:$EMSDK_VERSION
 # Installs build dependencies.
 RUN apt-get update && apt-get install -y bzip2 lzip ninja-build xz-utils
 
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt install -y nodejs
-RUN sed -i 's/NODE_JS .*/NODE_JS = "\/usr\/bin\/node"/' /emsdk/.emscripten
-
 # Download dependency sources
 WORKDIR /wasm
 ARG ZLIB_VERSION
@@ -47,7 +43,6 @@ RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platfo
   -DCMAKE_FIND_ROOT_PATH=/wasm \
   -DUSE_GMP=OFF \
   -DINSTALL_DOCUMENTATION=OFF \
-  -DNODE_JS_EXECUTABLE=/usr/bin/node \
   -G Ninja ..
 RUN ninja
 
