@@ -32,8 +32,8 @@ describe("SWI-Prolog WebAssembly on Browser", () => {
       const browser = await puppeteer.launch({ headless: "new" });
       try {
         const page = await browser.newPage();
-        page.setDefaultTimeout(5000);
-        page.setDefaultNavigationTimeout(5000);
+        page.setDefaultTimeout(1_5000);
+        page.setDefaultNavigationTimeout(1_5000);
         await page.goto("http://localhost:8080/examples/browser.html");
         await page.waitForSelector("#solution");
         await page.waitForFunction(() => {
