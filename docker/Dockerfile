@@ -58,13 +58,6 @@ COPY --from=swipl-devel-build /swipl-devel /swipl-devel
 COPY --from=zlib /wasm /wasm
 COPY --from=pcre /wasm /wasm
 
-# Build the pcre dependencies and install them in /wasm
-WORKDIR /wasm/pcre2/build
-RUN emcmake cmake -DCMAKE_INSTALL_PREFIX=/wasm \
-  -DPCRE2GREP_SUPPORT_JIT=OFF \
-  -G Ninja .. $@
-RUN ninja && ninja install
-
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
 RUN mkdir -p /swipl-devel/build.wasm
