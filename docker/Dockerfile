@@ -1,6 +1,12 @@
 # Builds SWI-Prolog WebAssembly version.
 # https://swi-prolog.discourse.group/t/swi-prolog-in-the-browser-using-wasm/5650
 ARG EMSDK_VERSION
+
+FROM emscripten/emsdk:$EMSDK_VERSION AS ninja
+# Installs build dependencies.
+RUN apt-get update
+RUN apt-get install -y ninja-build
+
 FROM emscripten/emsdk:$EMSDK_VERSION as swipl-devel-build
 
 # Clone SWI-Prolog.  Only make a shallow clone and only clone the
@@ -25,13 +31,24 @@ RUN emconfigure ./configure --static --prefix=/wasm
 RUN EMCC_CFLAGS=-Wno-deprecated-non-prototype emmake make
 RUN emmake make install
 
-FROM emscripten/emsdk:$EMSDK_VERSION as pcre
+FROM emscripten/emsdk:$EMSDK_VERSION as pcre-clone
 # Download dependency sources
 WORKDIR /wasm
 ARG PCRE2_NAME
 RUN git clone --branch=$PCRE2_NAME --depth 1 https://github.com/PCRE2Project/pcre2
 
-FROM emscripten/emsdk:$EMSDK_VERSION
+FROM ninja as pcre
+
+COPY --from=pcre-clone /wasm /wasm
+# Build the pcre dependencies and install them in /wasm
+WORKDIR /wasm/pcre2/build
+RUN emcmake cmake -DCMAKE_INSTALL_PREFIX=/wasm \
+  -DPCRE2GREP_SUPPORT_JIT=OFF \
+  -G Ninja .. $@
+RUN ninja
+RUN ninja install
+
+FROM ninja
 
 # Installs build dependencies.
 RUN apt-get update
