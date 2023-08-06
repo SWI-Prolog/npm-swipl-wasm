@@ -34,9 +34,9 @@ FROM emscripten/emsdk:$EMSDK_VERSION
 # Installs build dependencies.
 RUN apt-get update && apt-get install -y bzip2 lzip ninja-build xz-utils
 
-COPY --from=swipl-devel /swipl-devel /swipl-devel
-COPY --from=zlib /wasm /wasm
-COPY --from=pcre /wasm /wasm
+COPY --from=swipl-devel /swipl-devel ./swipl-devel
+COPY --from=zlib /wasm ./wasm
+COPY --from=pcre /wasm ./wasm
 
 # Build the pcre dependencies and install them in /wasm
 WORKDIR /wasm/pcre2/build
