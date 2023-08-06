@@ -3,19 +3,18 @@
 ARG EMSDK_VERSION
 FROM emscripten/emsdk:$EMSDK_VERSION as swipl-devel-build
 
-RUN apt-get update && apt-get install -y git
-
 # Clone SWI-Prolog.  Only make a shallow clone and only clone the
 # submodules we need at depth 1.
+WORKDIR /
 ARG SWIPL_VERSION
 RUN git clone --depth 1 https://github.com/SWI-Prolog/swipl-devel --branch V$SWIPL_VERSION
 RUN cd swipl-devel && git submodule update --init --depth 1 -j 100 \
     packages/chr packages/clib packages/clpqr packages/http packages/nlp \
     packages/pcre packages/plunit packages/sgml packages/RDF \
-    packages/semweb packages/zlib && cd ..
-WORKDIR /
+    packages/semweb packages/zlib
 
 FROM emscripten/emsdk:$EMSDK_VERSION as zlib
+
 # Download dependency sources
 WORKDIR /wasm
 ARG ZLIB_VERSION
@@ -25,23 +24,22 @@ WORKDIR /wasm/zlib-$ZLIB_VERSION
 RUN emconfigure ./configure --static --prefix=/wasm
 RUN EMCC_CFLAGS=-Wno-deprecated-non-prototype emmake make
 RUN emmake make install
-WORKDIR /
 
 FROM emscripten/emsdk:$EMSDK_VERSION as pcre
 # Download dependency sources
 WORKDIR /wasm
 ARG PCRE2_NAME
 RUN git clone --branch=$PCRE2_NAME --depth 1 https://github.com/PCRE2Project/pcre2
-WORKDIR /
 
 FROM emscripten/emsdk:$EMSDK_VERSION
 
 # Installs build dependencies.
-RUN apt-get update && apt-get install -y bzip2 lzip ninja-build xz-utils
+RUN apt-get update
+RUN apt-get install -y ninja-build
 
-COPY --from=swipl-devel-build /swipl-devel ./swipl-devel
-COPY --from=zlib /wasm ./wasm
-COPY --from=pcre /wasm ./wasm
+COPY --from=swipl-devel-build /swipl-devel /swipl-devel
+COPY --from=zlib /wasm /wasm
+COPY --from=pcre /wasm /wasm
 
 # Build the pcre dependencies and install them in /wasm
 WORKDIR /wasm/pcre2/build
