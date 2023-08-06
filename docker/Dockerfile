@@ -28,12 +28,6 @@ FROM emscripten/emsdk:$EMSDK_VERSION as pcre
 WORKDIR /wasm
 ARG PCRE2_NAME
 RUN git clone --branch=$PCRE2_NAME --depth 1 https://github.com/PCRE2Project/pcre2
-# Build the dependencies and install them in /wasm
-WORKDIR /wasm/pcre2/build
-RUN emcmake cmake -DCMAKE_INSTALL_PREFIX=/wasm \
-  -DPCRE2GREP_SUPPORT_JIT=OFF \
-  -G Ninja .. $@
-RUN ninja && ninja install
 
 FROM emscripten/emsdk:$EMSDK_VERSION
 
@@ -43,6 +37,13 @@ RUN apt-get update && apt-get install -y bzip2 lzip ninja-build xz-utils
 COPY --from=swipl-devel /swipl-devel /swipl-devel
 COPY --from=zlib /wasm /wasm
 COPY --from=pcre /wasm /wasm
+
+# Build the pcre dependencies and install them in /wasm
+WORKDIR /wasm/pcre2/build
+RUN emcmake cmake -DCMAKE_INSTALL_PREFIX=/wasm \
+  -DPCRE2GREP_SUPPORT_JIT=OFF \
+  -G Ninja .. $@
+RUN ninja && ninja install
 
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
