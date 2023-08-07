@@ -22,7 +22,7 @@
     "@octokit/rest": "^20.0.1",
     "@qiwi/semantic-release-gh-pages-plugin": "^5.2.7",
     "@types/fs-extra": "^11.0.1",
-    "@types/node": "^20.4.7",
+    "@types/node": "^20.4.8",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "eslint": "^8.46.0",
