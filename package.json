@@ -120,7 +120,7 @@
     ]
   },
   "dependencies": {
-    "@inrupt/universal-fetch": "^1.0.2",
+    "@inrupt/universal-fetch": "^1.0.3",
     "@types/emscripten": "^1.39.7"
   }
 }
