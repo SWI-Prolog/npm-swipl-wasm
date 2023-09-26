@@ -121,6 +121,6 @@
   },
   "dependencies": {
     "@inrupt/universal-fetch": "^1.0.3",
-    "@types/emscripten": "^1.39.7"
+    "@types/emscripten": "^1.39.8"
   }
 }
