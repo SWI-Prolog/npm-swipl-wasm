@@ -46,4 +46,4 @@ RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platfo
   -G Ninja ..
 RUN ninja
 
-RUN ctest -j $(nproc) --stop-on-failure
+RUN ctest -j $(nproc) --stop-on-failure --output-on-failure
