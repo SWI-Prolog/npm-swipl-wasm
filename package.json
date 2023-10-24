@@ -20,7 +20,7 @@
   "types": "dist/index.d.ts",
   "devDependencies": {
     "@octokit/rest": "^20.0.2",
-    "@qiwi/semantic-release-gh-pages-plugin": "^5.2.9",
+    "@qiwi/semantic-release-gh-pages-plugin": "^5.2.10",
     "@types/fs-extra": "^11.0.3",
     "@types/node": "^20.8.8",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
