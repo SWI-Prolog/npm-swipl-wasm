@@ -29,7 +29,7 @@ RUN ninja && ninja install
 # submodules we need at depth 1.
 WORKDIR /
 ARG SWIPL_VERSION
-RUN git clone --depth 1 https://github.com/SWI-Prolog/swipl-devel --branch V$SWIPL_VERSION
+RUN git clone --depth 1 https://github.com/SWI-Prolog/swipl-devel
 RUN cd swipl-devel && git submodule update --init --depth 1 -j 100 \
     packages/chr packages/clib packages/clpqr packages/http packages/nlp \
     packages/pcre packages/plunit packages/sgml packages/RDF \
