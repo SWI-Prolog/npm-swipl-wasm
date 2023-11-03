@@ -30,8 +30,10 @@ RUN ninja && ninja install
 WORKDIR /
 ARG SWIPL_COMMIT
 RUN git clone https://github.com/SWI-Prolog/swipl-devel
+
+WORKDIR /swipl-devel
 RUN git checkout $SWIPL_COMMIT
-RUN cd swipl-devel && git submodule update --init --depth 1 -j 100 \
+RUN git submodule update --init --depth 1 -j 100 \
     packages/chr packages/clib packages/clpqr packages/http packages/nlp \
     packages/pcre packages/plunit packages/sgml packages/RDF \
     packages/semweb packages/zlib
