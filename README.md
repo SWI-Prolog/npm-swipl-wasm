@@ -33,7 +33,7 @@ npm init
 npm i swipl-wasm
 ```
 
-After this place the above code in `script.js` in the root of your directory and run `node script.js`
+After this place the above code in `script.mjs` in the root of your directory and run `node script.mjs`
 to run the script.
 
 ## Usage
