@@ -9,7 +9,7 @@ for ongoing progress and information:
 The easiest way to get started is my importing swipl-wasm into your npm project.
 It imported for both node and browser builds as follows:
 
-script.js
+script.mjs
 ```js
 import SWIPL from "swipl-wasm";
 
@@ -33,7 +33,7 @@ npm init
 npm i swipl-wasm
 ```
 
-After this place the above code in `script.js` in the root of your directory and run `node script.js`
+After this place the above code in `script.mjs` in the root of your directory and run `node script.mjs`
 to run the script.
 
 ## Usage
