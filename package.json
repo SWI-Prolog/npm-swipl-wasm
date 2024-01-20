@@ -80,9 +80,9 @@
       "name": "V9.1.21"
     },
     "emsdk": {
-      "version": "3.1.51",
-      "commit": "4e2496141eda15040c44e9bbf237a1326368e34c",
-      "name": "3.1.51"
+      "version": "3.1.52",
+      "commit": "96bd9f0c9abf7ebf145443ae73bb09ff00267d58",
+      "name": "3.1.52"
     },
     "zlib": {
       "version": "1.3"
