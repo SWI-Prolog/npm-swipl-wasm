@@ -15,6 +15,7 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
     } : {};
 
     const packages = [
+      'process',
       'lists',
       'gensym',
       'system',
