@@ -58,7 +58,7 @@ jobs:
     - run: npm run bundle:webpack
 
   release:
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/alpha' }}
     needs: [ test ]
     runs-on: ubuntu-latest
     steps:

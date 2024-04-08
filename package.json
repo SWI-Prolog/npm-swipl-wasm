@@ -98,7 +98,11 @@
   },
   "release": {
     "branches": [
-      "master"
+      "master",
+      {
+        "name": "alpha",
+        "prerelease": true
+      }
     ],
     "verifyConditions": [
       "@semantic-release/npm",
