@@ -29,7 +29,7 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       'dif',
       'semweb/turtle',
       'pcre',
-      // 'uuid',
+      'uuid',
       // 'http/http_open',
     ];
 
