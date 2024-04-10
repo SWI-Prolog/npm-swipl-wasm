@@ -106,11 +106,12 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       assert.ok(version >= 80517);
     });
 
-    it(`[${name}] ` + "should query SWI-Prolog version", async () => {
+    it(`[${name}] ` + "should query SWI-Prolog Input", async () => {
       const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
-      const input = swipl.prolog
-        .call("await(\"input\", Input)", { async: true })
-        .resume("testVal").Input;
+      const res = swipl.prolog
+        .call("await('inputV', Input)", { async: true })
+      assert.strictEqual("inputV", res.yield);
+      const input = res.resume("testVal").Input;
       assert.strictEqual("testVal", input);
     });
   
