@@ -45,7 +45,7 @@
     "dist/**/*.wasm"
   ],
   "scripts": {
-    "build:wasm-docker:build": "docker build --build-arg SWIPL_VERSION=$npm_package_config_swipl_version --build-arg SWIPL_COMMIT=$npm_package_config_swipl_commit --build-arg EMSDK_VERSION=$npm_package_config_emsdk_version --build-arg ZLIB_VERSION=$npm_package_config_zlib_version --build-arg PCRE2_NAME=$npm_package_config_pcre2_name -t swipl-wasm-image docker",
+    "build:configurable:wasm-docker:build": "docker build --build-arg SWIPL_VERSION=$npm_package_config_swipl_version --build-arg SWIPL_COMMIT=$npm_package_config_swipl_commit --build-arg EMSDK_VERSION=$npm_package_config_emsdk_version --build-arg ZLIB_VERSION=$npm_package_config_zlib_version --build-arg PCRE2_NAME=$npm_package_config_pcre2_name -t swipl-wasm-image docker",
     "build:wasm-docker:create": "docker create --name swipl-wasm swipl-wasm-image",
     "build:wasm-docker:remove": "docker rm swipl-wasm",
     "build:wasm-docker:extract:data": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.data dist/swipl/swipl-web.data",
@@ -56,7 +56,9 @@
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl.js",
     "build:wasm-docker:extract": "run-s build:wasm-docker:extract:*",
     "build:wasm-docker": "run-s build:wasm-docker:build build:wasm-docker:create build:wasm-docker:extract build:wasm-docker:remove",
-    "build": "run-s build:wasm-docker && tsc",
+    "build": "npm run build:configurable:wasm-docker:build && run-s build:wasm-docker && tsc",
+    "build:gh": "npm run build:configurable:wasm-docker:build -- --cache-to type=gha --cache-from type=gha && run-s build:wasm-docker && tsc",
+    "tsc": "tsc",
     "test:serve-http": "http-server . -c-1",
     "test:node": "mocha tests/node.js --timeout 50000",
     "test:browser": "mocha tests/browser.js --timeout 50000",

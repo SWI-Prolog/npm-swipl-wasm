@@ -29,7 +29,7 @@ RUN ninja && ninja install
 # submodules we need at depth 1.
 WORKDIR /
 ARG SWIPL_COMMIT
-RUN git clone https://github.com/SWI-Prolog/swipl-devel
+RUN git clone --single-branch https://github.com/SWI-Prolog/swipl-devel
 
 WORKDIR /swipl-devel
 RUN git checkout $SWIPL_COMMIT

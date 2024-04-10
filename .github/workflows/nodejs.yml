@@ -28,7 +28,7 @@ jobs:
       with:
         node-version: 20.x
     - run: npm ci
-    - run: npm run build
+    - run: npm run build:gh
     - uses: actions/upload-artifact@v4
       with:
         name: dist
@@ -59,7 +59,7 @@ jobs:
 
   release:
     if: ${{ github.ref == 'refs/heads/master' }}
-    needs: [ test ]
+    needs: [ test, lint ]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
