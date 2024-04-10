@@ -111,8 +111,8 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       const res = swipl.prolog
         .call("await('inputV', Input)", { async: true })
       assert.strictEqual("inputV", res.yield);
-      // const input = res.resume("testVal").Input;
-      // assert.strictEqual("testVal", input);
+      const input = res.resume("testVal");
+      assert.ok(input.done);
     });
   
     it(`[${name}] ` + "should have predictable term conversion", async () => {
