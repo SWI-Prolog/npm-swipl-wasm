@@ -77,13 +77,13 @@
   "config": {
     "swipl": {
       "version": "9.3.3",
-      "commit": "b518b8458a2caa5190bfc1f6d90b87b1acd20613",
+      "commit": "cf987de621b1beba0cc8fb23b458a40f272a3a83",
       "name": "V9.3.3"
     },
     "emsdk": {
-      "version": "3.1.56",
-      "commit": "e10826f9196bb0e704014af2252ef58fb4ba261b",
-      "name": "3.1.56"
+      "version": "3.1.57",
+      "commit": "229d83fc706e10a39d4948a804cbbf17225cdda0",
+      "name": "3.1.57"
     },
     "zlib": {
       "version": "1.3.1"
