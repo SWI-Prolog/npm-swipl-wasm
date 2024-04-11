@@ -28,13 +28,14 @@ jobs:
       with:
         node-version: 20.x
     - run: npm ci
+    - run: PACKAGE_JSON=$(cat ./package.json)
 
     - name: Restore cached build
       id: cache
       uses: actions/cache@v4
       with:
         path: dist/swipl
-        key: $(cat ./package.json | jq ".config")
+        key: test-${{ fromJSON(PACKAGE_JSON).config.swipl.version }}-${{ fromJSON(PACKAGE_JSON).config.emsdk.version }}-${{ fromJSON(PACKAGE_JSON).config.zlib.version }}-${{ fromJSON(PACKAGE_JSON).config.pcre2.version }}
 
     - name: Full Build
       if: steps.cache.outputs.cache-hit != 'true'

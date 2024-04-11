@@ -76,7 +76,7 @@
   },
   "config": {
     "swipl": {
-      "version": "bogus 9.3.3",
+      "version": "9.3.3",
       "commit": "b518b8458a2caa5190bfc1f6d90b87b1acd20613",
       "name": "V9.3.3"
     },
