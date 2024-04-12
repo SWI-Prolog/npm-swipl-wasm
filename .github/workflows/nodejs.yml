@@ -28,7 +28,9 @@ jobs:
       with:
         node-version: 20.x
     - run: npm ci
-    - run: PACKAGE_JSON=$(cat ./package.json)
+    - run: |
+        PACKAGE_JSON=$(cat ./package.json)
+        echo $PACKAGE_JSON
     - run: echo $PACKAGE_JSON
 
     - name: Restore cached build
