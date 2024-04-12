@@ -5,6 +5,8 @@ name: Node.js CI
 
 on:
   push:
+    branches:
+    - master
   pull_request:
 
 jobs:
@@ -27,6 +29,7 @@ jobs:
         node-version: 20.x
     - run: npm ci
     - run: PACKAGE_JSON=$(cat ./package.json)
+    - run: echo $PACKAGE_JSON
 
     - name: Restore cached build
       id: cache
