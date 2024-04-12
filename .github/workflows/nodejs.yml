@@ -33,7 +33,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: dist/swipl
-        key: test-${{ fromJSON($PACKAGE_JSON).config.swipl.version }}-${{ fromJSON($PACKAGE_JSON).config.emsdk.version }}-${{ fromJSON($PACKAGE_JSON).config.zlib.version }}-${{ fromJSON($PACKAGE_JSON).config.pcre2.version }}
+        key: test-${{ fromJSON(env.PACKAGE_JSON).config.swipl.version }}-${{ fromJSON(env.PACKAGE_JSON).config.emsdk.version }}-${{ fromJSON(env.PACKAGE_JSON).config.zlib.version }}-${{ fromJSON(env.PACKAGE_JSON).config.pcre2.version }}
 
     - name: Full Build
       if: steps.cache.outputs.cache-hit != 'true'
