@@ -19,7 +19,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "devDependencies": {
-    "@octokit/rest": "^20.1.0",
+    "@octokit/rest": "^20.1.1",
     "@qiwi/semantic-release-gh-pages-plugin": "^5.2.12",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.12.8",
