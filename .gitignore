@@ -17,3 +17,7 @@ dist/generateImage.d.ts
 dist/strToBuffer.js
 dist/strToBuffer.d.ts
 bundle
+scripts/*.js
+scripts/*.d.ts
+scripts/*.mjs
+scripts/*.d.mts

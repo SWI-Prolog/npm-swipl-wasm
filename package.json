@@ -58,6 +58,7 @@
     "build:wasm-docker": "run-s build:wasm-docker:build build:wasm-docker:create build:wasm-docker:extract build:wasm-docker:remove",
     "build": "run-s build:wasm-docker && tsc",
     "tsc": "tsc",
+    "tsc:script": "tsc -p tsconfig.script.json",
     "test:serve-http": "http-server . -c-1",
     "test:node": "mocha tests/node.js --timeout 50000",
     "test:browser": "mocha tests/browser.js --timeout 50000",
