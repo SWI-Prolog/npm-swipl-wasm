@@ -1,6 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { Octokit } from '@octokit/rest';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// Function to mimic __dirname in ES modules
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export function isHigherVersion(v1: string, v2: string) {
   const [major1, minor1, patch1] = v1.split('.').map(e => parseInt(e));
