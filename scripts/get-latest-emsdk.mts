@@ -1,4 +1,4 @@
-import { updateTag } from './util';
+import { updateTag } from './util.mts';
 
 updateTag({
   owner: 'emscripten-core',

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies, no-console */
-import { getPackage, savePackage } from "./util";
+import { getPackage, savePackage } from "./util.mts";
 
 (async () => {
   const res = (await fetch('https://api.github.com/repos/madler/zlib/releases/latest'));

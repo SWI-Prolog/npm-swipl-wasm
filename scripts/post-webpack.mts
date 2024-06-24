@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import fs from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 
 let version = process.argv.find((name) => name.startsWith('--name='))?.slice(8).split('.');
@@ -20,6 +20,6 @@ if (version) {
     if (!fs.existsSync(destDir)) {
       fs.mkdirSync(destDir, { recursive: true });
     }
-    fs.copySync(path.join(__dirname, '..', ...version), destDir);
+    fs.cpSync(path.join(__dirname, '..', ...version), destDir);
   }
 }
