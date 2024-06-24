@@ -34,6 +34,7 @@
     "puppeteer": "^22.12.0",
     "semantic-release": "^24.0.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.15.7",
     "typescript": "^5.5.2",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
@@ -67,10 +68,10 @@
     "lint:types": "eslint dist --ext .ts",
     "lint:tests": "eslint tests --ext .js",
     "lint": "run-s lint:types lint:tests",
-    "update:dep:emsdk": "ts-node scripts/get-latest-emsdk.mts",
-    "update:dep:pcre2": "ts-node scripts/get-latest-pcre2",
-    "update:dep:swipl": "ts-node scripts/get-latest-swipl",
-    "update:dep:zlib": "ts-node scripts/get-latest-zlib",
+    "update:dep:emsdk": "tsx scripts/get-latest-emsdk.mts",
+    "update:dep:pcre2": "tsx scripts/get-latest-pcre2.mts",
+    "update:dep:swipl": "tsx scripts/get-latest-swipl.mts",
+    "update:dep:zlib": "tsx scripts/get-latest-zlib.mts",
     "update:dep": "run-s update:dep:*",
     "bundle:webpack": "webpack --config webpack.config.js",
     "bundle:latest": "ts-node scripts/post-webpack"
