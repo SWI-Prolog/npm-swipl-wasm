@@ -33,7 +33,7 @@
     "puppeteer": "^22.12.1",
     "semantic-release": "^24.0.0",
     "ts-node": "^10.9.2",
-    "tsx": "^4.15.8",
+    "tsx": "^4.16.0",
     "typescript": "^5.5.2",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
