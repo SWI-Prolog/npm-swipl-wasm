@@ -20,6 +20,6 @@ if (version) {
     if (!fs.existsSync(destDir)) {
       fs.mkdirSync(destDir, { recursive: true });
     }
-    fs.cpSync(path.join(__dirname, '..', ...version), destDir);
+    fs.cpSync(path.join(__dirname, '..', ...version), destDir, { recursive: true });
   }
 }
