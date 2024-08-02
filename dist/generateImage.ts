@@ -2,7 +2,6 @@
 
 import SWIPL from './swipl/swipl-bundle';
 import fs from 'fs';
-import { fetch } from '@inrupt/universal-fetch';
 
 function Uint8ToString(u8a: Uint8Array) {
   const CHUNK_SZ = 0x8000;
