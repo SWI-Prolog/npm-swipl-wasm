@@ -81,9 +81,9 @@
       "name": "V9.3.9"
     },
     "emsdk": {
-      "version": "3.1.64",
-      "commit": "0b3bcbc3b005cbb811d48e497eabcc6846d43001",
-      "name": "3.1.64"
+      "version": "3.1.65",
+      "commit": "3eb3e02dfd10eaa527ba61b89cfcfba13d1c060d",
+      "name": "3.1.65"
     },
     "zlib": {
       "version": "1.3.1"
