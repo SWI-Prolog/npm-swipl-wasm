@@ -2,6 +2,27 @@ const assert = require("assert");
 const path = require("path");
 
 describe("SWI-Prolog WebAssembly on Node.js", () => {
+  let log, warn, error;
+  let logMessages = [], warnMessages = [], errorMessages = [];
+
+  beforeEach(() => {
+    log = console.log;
+    warn = console.warn;
+    error = console.error;
+    console.log = (message) => logMessages.push(message);
+    console.warn = (message) => warnMessages.push(message);
+    console.error = (message) => errorMessages.push(message);
+  });
+
+  afterEach(() => {
+    console.log = log;
+    console.warn = warn;
+    console.error = error;
+    logMessages = [];
+    warnMessages = [];
+    errorMessages = [];
+  });
+
   for (const [SWIPL, name] of [
     [require("../dist/swipl-node"), 'node'],
     [require("../dist/swipl/swipl-web"), 'web'],
@@ -38,6 +59,9 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
         const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
         const importResult = swipl.prolog.query(`use_module(library(${package})).`).once().success;
         assert.strictEqual(importResult, true);
+        assert.deepEqual(logMessages, []);
+        assert.deepEqual(warnMessages, []);
+        assert.deepEqual(errorMessages, []);
       });
     }
 
@@ -52,6 +76,9 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       assert.strictEqual(typeof swipl.prolog, "object");
       assert.strictEqual(typeof swipl.prolog.call, "function");
       assert.strictEqual(typeof swipl.prolog.query, "function");
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
   
     it(`[${name}] ` + "should run simple query", async () => {
@@ -60,6 +87,9 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
         swipl.prolog.query("member(X, [a, b, c]).").once().X,
         "a"
       );
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
   
     it(`[${name}] ` + "should run query with arguments", async () => {
@@ -68,25 +98,28 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
         swipl.prolog.query("member(X, Y).", { Y: ["a", "b", "c"] }).once().X,
         "a"
       );
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
   
     it(`[${name}] ` + "should run failing query", async () => {
       const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
       const response = swipl.prolog.query("true").once();
       assert.strictEqual(response.$tag, "bindings");
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
   
     it(`[${name}] ` + "should run throwing query", async () => {
-      const errorMessages = [];
-      const log = console.log;
-      console.log = (message) => errorMessages.push(message);
-
       const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
       const response = swipl.prolog.query("throw(error(test, _))").once();
       assert.strictEqual(response.error, true);
 
-      console.log = log;
-      assert.deepEqual(errorMessages, ["Unknown error term: test"]);
+      assert.deepEqual(logMessages, ["Unknown error term: test"]);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
   
     it(`[${name}] ` + "should eval javascript", async () => {
@@ -96,6 +129,9 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
         Script: `global.wasRun = true;`,
       });
       assert.strictEqual(global.wasRun, true);
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
   
     it(`[${name}] ` + "should query SWI-Prolog version", async () => {
@@ -104,6 +140,9 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
         .query("current_prolog_flag(version, Version)")
         .once().Version;
       assert.ok(version >= 80517);
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
 
     it(`[${name}] ` + "should query SWI-Prolog Input", async () => {
@@ -113,18 +152,27 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       assert.strictEqual("inputV", res.yield);
       const input = res.resume("testVal");
       assert.ok(input.done);
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
   
     it(`[${name}] ` + "should have predictable term conversion", async () => {
       const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
       const atom = swipl.prolog.query("X = atom").once().X;
       assert.strictEqual(atom, "atom");
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
 
     it(`[${name}] ` + "should handle big ints", async () => {
       const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
       const atom = swipl.prolog.query("X is 555555555555555555555555555555555555555555555555555555").once().X;
       assert.strictEqual(atom, 555555555555555555555555555555555555555555555555555555n);
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
 
     it(`[${name}] ` + "should do regex operations enabled by pcre2", async () => {
@@ -133,6 +181,9 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       assert.strictEqual(swipl.prolog.query("re_match(\"^needle\"/i, \"Needle in a haystack\").").once().success, true);
       assert.strictEqual(swipl.prolog.query("re_match(\"^[0-9]{4}$\"/i, \"2023\").").once().success, true);
       assert.strictEqual(swipl.prolog.query("re_match(\"^[0-9]{4}$\"/i, \"202\").").once().success, false);
+      assert.deepEqual(logMessages, []);
+      assert.deepEqual(warnMessages, []);
+      assert.deepEqual(errorMessages, []);
     });
   }
 });
