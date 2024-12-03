@@ -76,9 +76,9 @@
   },
   "config": {
     "swipl": {
-      "version": "9.3.15",
-      "commit": "848bc2df48f1a224fb1ebf4fefdb8ee38584d3a2",
-      "name": "V9.3.15"
+      "version": "9.3.16",
+      "commit": "a3601d6bc2c903ad0b456c847e8ec426f61d6ded",
+      "name": "V9.3.16"
     },
     "emsdk": {
       "version": "3.1.73",
