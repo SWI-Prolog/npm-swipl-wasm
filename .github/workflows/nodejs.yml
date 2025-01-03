@@ -77,6 +77,12 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: [ test, lint ]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+      pages: write
+      issues: write
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -90,7 +96,7 @@ jobs:
     - name: "Create Bundle"
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ github.token }}
       run: |
         # The semantic-release command errors if this folder does not exist
         mkdir ./bundle
@@ -103,5 +109,5 @@ jobs:
     - name: Release
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ github.token }}
       run: npx semantic-release
