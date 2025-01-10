@@ -19,7 +19,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "devDependencies": {
-    "@octokit/rest": "^21.0.2",
+    "@octokit/rest": "^21.1.0",
     "@qiwi/semantic-release-gh-pages-plugin": "^5.4.2",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.10.5",
@@ -34,7 +34,7 @@
     "semantic-release": "^24.2.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
   },
