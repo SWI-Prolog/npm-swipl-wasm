@@ -11,7 +11,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -21,7 +21,7 @@ jobs:
     - run: npm run lint
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -55,7 +55,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 18.x, 19.x, 20.x, 22.x]
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ ubuntu-22.04, macos-latest, windows-latest ]
 
     runs-on: ${{ matrix.os }}
 
@@ -76,7 +76,7 @@ jobs:
   release:
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: [ test, lint ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
       pull-requests: write
