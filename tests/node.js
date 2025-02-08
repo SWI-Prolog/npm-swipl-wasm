@@ -57,6 +57,7 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
     for (const package of packages) {
       it(`[${name}] ` + "should support the package " + package, async () => {
         const swipl = await SWIPL({ arguments: ["-q"], ...addedParams });
+        console.log(swipl)
         const importResult = swipl.prolog.query(`use_module(library(${package})).`).once().success;
         assert.strictEqual(importResult, true);
         assert.deepEqual(logMessages, []);
