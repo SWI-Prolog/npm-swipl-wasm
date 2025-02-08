@@ -21,7 +21,7 @@ export async function generateImageBuffer(prolog: string | Buffer): Promise<Uint
     preRun: [(module: SWIPLModule) => { module.FS.writeFile('prolog.pl', prolog) }],
   });
 
-  // @ts-ignore
+  // @ts-expect-error
   Module.onRuntimeInitialized();
   Module.prolog.query("qsave_program('prolog.pvm')").once();
   return Module.FS.readFile('prolog.pvm')
