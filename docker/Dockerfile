@@ -4,7 +4,7 @@ ARG EMSDK_VERSION
 FROM emscripten/emsdk:$EMSDK_VERSION
 
 # Installs build dependencies.
-RUN apt-get update && apt-get install -y ninja-build
+RUN apt-get update && apt-get install -y ninja-build rsync
 
 # Download dependency sources
 WORKDIR /wasm
