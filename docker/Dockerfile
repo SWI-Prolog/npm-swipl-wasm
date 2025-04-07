@@ -4,7 +4,7 @@ ARG EMSDK_VERSION
 FROM emscripten/emsdk:$EMSDK_VERSION
 
 # Installs build dependencies.
-RUN apt-get update && apt-get install -y ninja-build
+RUN apt-get update && apt-get install -y ninja-build rsync
 
 # Download dependency sources
 WORKDIR /wasm
@@ -41,11 +41,14 @@ RUN git submodule update --init --depth 1 -j 100 \
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
 RUN mkdir -p /swipl-devel/build.wasm
+ENV LDFLAGS="-s STACK_SIZE=1048576"
 RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_FIND_ROOT_PATH=/wasm \
   -DUSE_GMP=OFF \
   -DINSTALL_DOCUMENTATION=OFF \
+  -DINSTALL_QLF=ON \
+  -DINSTALL_PROLOG_SRC=OFF \
   -G Ninja ..
 RUN ninja
 
