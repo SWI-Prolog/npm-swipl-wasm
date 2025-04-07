@@ -47,6 +47,8 @@ RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platfo
   -DCMAKE_FIND_ROOT_PATH=/wasm \
   -DUSE_GMP=OFF \
   -DINSTALL_DOCUMENTATION=OFF \
+  -DINSTALL_QLF=ON \
+  -DINSTALL_PROLOG_SRC=OFF \
   -G Ninja ..
 RUN ninja
 
