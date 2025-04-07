@@ -41,6 +41,7 @@ RUN git submodule update --init --depth 1 -j 100 \
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
 RUN mkdir -p /swipl-devel/build.wasm
+ENV LDFLAGS="-s STACK_SIZE=1048576"
 RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_FIND_ROOT_PATH=/wasm \
