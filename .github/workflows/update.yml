@@ -11,7 +11,7 @@ jobs:
         dependency: ['swipl', 'emsdk', 'zlib', 'pcre2']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           token: ${{ secrets.GH_TOKEN }}
       - name: Use Node.js
