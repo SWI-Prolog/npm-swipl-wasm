@@ -25,7 +25,7 @@
     "@qiwi/semantic-release-gh-pages-plugin": "^5.4.3",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.41.0",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
     "@typescript-eslint/parser": "^8.32.1",
     "eslint": "^9.34.0",
     "globals": "^16.3.0",
@@ -79,9 +79,9 @@
   },
   "config": {
     "swipl": {
-      "version": "9.3.28",
-      "commit": "cfde84dbf9979011b3cd8d46031bbf28d283351c",
-      "name": "V9.3.28"
+      "version": "9.3.29",
+      "commit": "661e6167a02ff36401c96558b68819be662a5ad5",
+      "name": "V9.3.29"
     },
     "emsdk": {
       "version": "4.0.14",
@@ -124,6 +124,6 @@
     ]
   },
   "dependencies": {
-    "@types/emscripten": "^1.40.1"
+    "@types/emscripten": "^1.41.0"
   }
 }
