@@ -4,11 +4,11 @@ const { generateLoadedImageFile, generateImageFile } = require('../generateImage
 const path = require('path');
 
 function showHelp() {
-  console.log(`Usage: swipl-generate <input.pl> <output.js|output.ts> [--image-only]
+  console.log(`Usage: swipl-generate <input.pl> <output.ts> [--image-only]
 
 Arguments:
-  input.pl            Prolog source file or HTTP(S) URL
-  output.js|output.ts Output JavaScript/TypeScript file
+  input.pl     Prolog source file or HTTP(S) URL
+  output.ts    Output TypeScript file
 
 Options:
   --image-only Generate image data only
