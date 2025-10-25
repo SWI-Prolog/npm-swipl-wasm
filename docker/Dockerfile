@@ -34,8 +34,8 @@ RUN git clone --single-branch https://github.com/SWI-Prolog/swipl-devel
 WORKDIR /swipl-devel
 RUN git checkout $SWIPL_COMMIT
 RUN git submodule update --init --depth 1 -j 100 \
-    packages/chr packages/clib packages/clpqr packages/http packages/nlp \
-    packages/pcre packages/plunit packages/sgml packages/RDF \
+    packages/chr packages/clib packages/clpqr packages/http packages/json \
+    packages/nlp packages/pcre packages/plunit packages/sgml packages/RDF \
     packages/semweb packages/zlib
 
 # Build SWIPL
