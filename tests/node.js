@@ -51,6 +51,7 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       'semweb/turtle',
       'pcre',
       'chr',
+      'json',
       // 'uuid',
       // 'http/http_open',
     ];
