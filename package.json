@@ -48,7 +48,7 @@
     "dist/**/*.wasm"
   ],
   "scripts": {
-    "build:wasm-docker:build": "docker build --build-arg SWIPL_VERSION=$npm_package_config_swipl_version --build-arg SWIPL_COMMIT=$npm_package_config_swipl_commit --build-arg EMSDK_VERSION=$npm_package_config_emsdk_version --build-arg ZLIB_VERSION=$npm_package_config_zlib_version --build-arg PCRE2_NAME=$npm_package_config_pcre2_name -t swipl-wasm-image docker",
+    "build:wasm-docker:build": "docker build --build-arg SWIPL_VERSION=$(cat build-config.json | jq -r '.swipl.version') --build-arg SWIPL_COMMIT=$(cat build-config.json | jq -r '.swipl.commit') --build-arg EMSDK_VERSION=$(cat build-config.json | jq -r '.emsdk.version') --build-arg ZLIB_VERSION=$(cat build-config.json | jq -r '.zlib.version') --build-arg PCRE2_NAME=$(cat build-config.json | jq -r '.pcre2.name') -t swipl-wasm-image docker",
     "build:wasm-docker:create": "docker create --name swipl-wasm swipl-wasm-image",
     "build:wasm-docker:remove": "docker rm swipl-wasm",
     "build:wasm-docker:extract:data": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.data dist/swipl/swipl-web.data",
@@ -76,26 +76,6 @@
     "update:dep": "run-s update:dep:*",
     "bundle:webpack": "webpack --config webpack.config.js",
     "bundle:latest": "ts-node scripts/post-webpack"
-  },
-  "config": {
-    "swipl": {
-      "version": "9.3.33",
-      "commit": "24cf6b20a91a3f389e22bd8ac915251c34ea30bb",
-      "name": "V9.3.33"
-    },
-    "emsdk": {
-      "version": "4.0.18",
-      "commit": "eb5eb4b3b2b792f44ded198bfe615c985da5be2c",
-      "name": "4.0.18"
-    },
-    "zlib": {
-      "version": "1.3.1"
-    },
-    "pcre2": {
-      "version": "10.47.0",
-      "commit": "f454e231fe5006dd7ff8f4693fd2b8eb94333429",
-      "name": "pcre2-10.47"
-    }
   },
   "bin": {
     "swipl-generate": "dist/bin/index.js"

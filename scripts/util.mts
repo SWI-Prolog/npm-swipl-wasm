@@ -7,6 +7,27 @@ import { dirname } from 'path';
 // Function to mimic __dirname in ES modules
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+export interface BuildConfig {
+  swipl: {
+    version: string;
+    commit: string;
+    name: string;
+  };
+  emsdk: {
+    version: string;
+    commit: string;
+    name: string;
+  };
+  zlib: {
+    version: string;
+  };
+  pcre2: {
+    version: string;
+    commit: string;
+    name: string;
+  };
+}
+
 export function isHigherVersion(v1: string, v2: string) {
   const [major1, minor1, patch1] = v1.split('.').map(e => parseInt(e));
   const [major2, minor2, patch2] = v2.split('.').map(e => parseInt(e));
@@ -16,12 +37,23 @@ export function isHigherVersion(v1: string, v2: string) {
     || ((major1 === major2) && (minor1 === minor2) && patch1 > patch2);
 }
 
-export function getPackage() {
-  return JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json')).toString())
+export function getBuildConfig(): BuildConfig {
+  const configPath = path.join(__dirname, '..', 'build-config.json');
+  try {
+    const data = fs.readFileSync(configPath, 'utf-8');
+    return JSON.parse(data) as BuildConfig;
+  } catch (error) {
+    throw new Error(`Failed to read build-config.json: ${(error as Error).message}`);
+  }
 }
 
-export function savePackage(packageJson: any) {
-  fs.writeFileSync(path.join(__dirname, '..', 'package.json'), `${JSON.stringify(packageJson, null, 2)}\n`);
+export function saveBuildConfig(buildConfig: BuildConfig) {
+  const configPath = path.join(__dirname, '..', 'build-config.json');
+  try {
+    fs.writeFileSync(configPath, `${JSON.stringify(buildConfig, null, 2)}\n`, 'utf-8');
+  } catch (error) {
+    throw new Error(`Failed to write build-config.json: ${(error as Error).message}`);
+  }
 }
 
 export type Tag = Awaited<ReturnType<Octokit['repos']['listTags']>>['data'][0];
@@ -62,11 +94,11 @@ export async function updateTag(options: IUpdateTagOptions) {
     }
   }
 
-  const pkg = getPackage();
+  const buildConfig = getBuildConfig();
 
-  // If a higher version exists, update the package.json
-  if (bestElem && isHigherVersion(bestElem.version, pkg.config[options.entry].version)) {
-    pkg.config[options.entry] = bestElem;
-    savePackage(pkg);
+  // If a higher version exists, update the build-config.json
+  if (bestElem && isHigherVersion(bestElem.version, buildConfig[options.entry].version)) {
+    buildConfig[options.entry] = bestElem;
+    saveBuildConfig(buildConfig);
   }
 }

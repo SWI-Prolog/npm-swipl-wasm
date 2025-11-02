@@ -23,11 +23,11 @@ jobs:
         run: |
           npm ci
 
-          pth=".config.${{ matrix.dependency }}.version"
+          pth=".${{ matrix.dependency }}.version"
 
-          before=$(cat ./package.json | jq "$pth")
+          before=$(cat ./build-config.json | jq "$pth")
           npm run "update:dep:${{ matrix.dependency }}"
-          current=$(cat ./package.json | jq "$pth")
+          current=$(cat ./build-config.json | jq "$pth")
 
           readarray -d . -t before <<<"${before:1:-1}"
           readarray -d . -t after <<<"${current:1:-1}"
