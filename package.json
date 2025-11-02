@@ -48,7 +48,7 @@
     "dist/**/*.wasm"
   ],
   "scripts": {
-    "build:wasm-docker:build": "bash -c 'source scripts/get-build-vars.sh && docker build --build-arg SWIPL_VERSION=$SWIPL_VERSION --build-arg SWIPL_COMMIT=$SWIPL_COMMIT --build-arg EMSDK_VERSION=$EMSDK_VERSION --build-arg ZLIB_VERSION=$ZLIB_VERSION --build-arg PCRE2_NAME=$PCRE2_NAME -t swipl-wasm-image docker'",
+    "build:wasm-docker:build": "docker build --build-arg SWIPL_VERSION=$(cat build-config.json | jq -r '.swipl.version') --build-arg SWIPL_COMMIT=$(cat build-config.json | jq -r '.swipl.commit') --build-arg EMSDK_VERSION=$(cat build-config.json | jq -r '.emsdk.version') --build-arg ZLIB_VERSION=$(cat build-config.json | jq -r '.zlib.version') --build-arg PCRE2_NAME=$(cat build-config.json | jq -r '.pcre2.name') -t swipl-wasm-image docker",
     "build:wasm-docker:create": "docker create --name swipl-wasm swipl-wasm-image",
     "build:wasm-docker:remove": "docker rm swipl-wasm",
     "build:wasm-docker:extract:data": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.data dist/swipl/swipl-web.data",

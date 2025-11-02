@@ -3,6 +3,7 @@ import path from 'path';
 import { Octokit } from '@octokit/rest';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import buildConfigData from '../build-config.json' with { type: 'json' };
 
 // Function to mimic __dirname in ES modules
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -46,19 +47,7 @@ export function savePackage(packageJson: any) {
 }
 
 export function getBuildConfig(): BuildConfig {
-  const configPath = path.join(__dirname, '..', 'build-config.json');
-  try {
-    const content = fs.readFileSync(configPath, 'utf-8');
-    return JSON.parse(content) as BuildConfig;
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-      throw new Error(`build-config.json not found at ${configPath}`);
-    }
-    if (error instanceof SyntaxError) {
-      throw new Error(`build-config.json contains invalid JSON: ${error.message}`);
-    }
-    throw error;
-  }
+  return buildConfigData as BuildConfig;
 }
 
 export function saveBuildConfig(buildConfig: BuildConfig) {
