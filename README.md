@@ -1,13 +1,13 @@
 # swipl-wasm
 
-SWI-Prolog WebAssembly build as a NPM package. Please see this page
+SWI-Prolog WebAssembly build as an NPM package. Please see this page
 for ongoing progress and information:
 <https://swi-prolog.discourse.group/t/swi-prolog-in-the-browser-using-wasm/5650>
 
 ## Quickly Getting Started
 
-The easiest way to get started is my importing swipl-wasm into your npm project.
-It imported for both node and browser builds as follows:
+The easiest way to get started is by importing swipl-wasm into your npm project.
+It can be imported for both Node.js and browser builds as follows:
 
 script.mjs
 ```js
@@ -21,8 +21,8 @@ async function main() {
 main();
 ```
 
-For those who have not done this before you will first need to [install node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
-After doing this you can make a new project as follows:
+For those who have not done this before, you will first need to [install Node.js and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+After doing this, you can make a new project as follows:
 
 ```bash
 # Make the project directory
@@ -33,8 +33,8 @@ npm init
 npm i swipl-wasm
 ```
 
-After this place the above code in `script.mjs` in the root of your directory and run `node script.mjs`
-to run the script.
+After this, place the above code in `script.mjs` in the root of your directory and run `node script.mjs`
+to execute the script.
 
 ## Usage
 
@@ -59,15 +59,15 @@ In browser:
 </script>
 ```
 
-The function `locateFile` will help the browser to find the necessary
-files (`swipl-web.wasm` and `swipl-web.data`). In this case the files
+The function `locateFile` will help the browser find the necessary
+files (`swipl-web.wasm` and `swipl-web.data`). In this case, the files
 should be served along with `swipl-web.js` under the `/dist/swipl`
 directory in the web server.
 
 You can run this example by executing `npm run test:serve-http` and
 visiting <http://localhost:8080/examples/browser.html>.
 
-In Nodejs:
+In Node.js:
 
 ```js
 const SWIPL = require("swipl-wasm");
@@ -78,10 +78,10 @@ console.log(swipl.prolog.query("member(X, [a, b, c]).").once().X);
 
 You can run this example with `node examples/run-on-node.js`.
 
-## Using single-file bundle
+## Using Single-File Bundle
 
-The `swipl-wasm` package comes also with the single-file bundle. This does not
-require distributing the `.data` and `.wasm` files which are now embedded into
+The `swipl-wasm` package also comes with a single-file bundle. This does not
+require distributing the `.data` and `.wasm` files, which are now embedded into
 the `.js` file instead.
 
 ```html
@@ -98,9 +98,9 @@ the `.js` file instead.
 </script>
 ```
 
-## Generating an image
+## Generating an Image
 
-Often you will want to bundle a pre-built image of your Prolog file. The easiest way to do this is using the `swipl-generate` command to generate the image. For example in `./examples/generation` the script: `npx swipl-generate ./max.pl ./dist/max.ts` will generate a file `./dist/max.ts` which contains the image of `./max.pl`. This file can then be imported into your project and used as follows:
+Often you will want to bundle a pre-built image of your Prolog file. The easiest way to do this is using the `swipl-generate` command to generate the image. For example, in `./examples/generation`, the script `npx swipl-generate ./max.pl ./dist/max.ts` will generate a file `./dist/max.ts` which contains the image of `./max.pl`. This file can then be imported into your project and used as follows:
 
 ```ts
 import SWIPL from './max';
@@ -116,7 +116,7 @@ main();
 
 Note that this procedure generates a file which imports directly from `swipl-wasm/dist/loadImageDefault`, so make sure that `swipl-wasm` is a direct dependency in your project rather than a dev dependency.
 
-To generate the image data without it pre-loaded into `SWIPL` use the `--image-only` flag.
+To generate the image data without it being pre-loaded into `SWIPL`, use the `--image-only` flag.
 
 ## Running JavaScript from Prolog
 
@@ -137,10 +137,10 @@ bundler for large-scale frontend projects.
 
 There is an example Webpack project in `examples/webpack`. It uses
 [Asset Modules](https://webpack.js.org/guides/asset-modules/) to "load"
-necessary `.data` and `.wasm` files. The location of these files and then
+necessary `.data` and `.wasm` files. The location of these files is then
 fed to `locateFile` (see above).
 
-The package `swipl-wasm` is linked into the example. In an actual project
+The package `swipl-wasm` is linked into the example. In an actual project,
 you would declare `swipl-wasm` as a normal dependency.
 
 To start the example:
@@ -148,30 +148,32 @@ To start the example:
 ```
 cd examples/webpack
 npm install
-npm build
+npm run build
 npm run server
 ```
 
-and visit <http://127.0.0.1:8080>. You should see the message "Hello world from
+Then visit <http://127.0.0.1:8080>. You should see the message "Hello world from
 Prolog".
 
 
 ## Browser Builds
 
-For convenience we provide deploy bundled versions of the SWI-Prolog on github pages which can be directly used in an HTML document.
+For convenience, we provide deployed bundled versions of SWI-Prolog on GitHub Pages which can be directly used in an HTML document.
 
-There is a bundled version for each release - which can be found at the url:
-<p align=center>
+There is a bundled version for each release, which can be found at the URL:
+
+```
 https://SWI-Prolog.github.io/npm-swipl-wasm/vMajor/vMinor/vPatch/index.js
+```
 
-for instance v3.3.0 has the url https://SWI-Prolog.github.io/npm-swipl-wasm/3/3/0/index.js. We also have shortcuts for:
+For instance, v3.3.0 has the URL https://SWI-Prolog.github.io/npm-swipl-wasm/3/3/0/index.js. We also have shortcuts for:
  - the latest version https://SWI-Prolog.github.io/npm-swipl-wasm/latest/index.js,
  - the latest of each major version https://SWI-Prolog.github.io/npm-swipl-wasm/vMajor/latest/index.js, and
  - the latest of each minor version https://SWI-Prolog.github.io/npm-swipl-wasm/vMajor/vMinor/latest/index.js
 
 Available versions can be browsed at https://github.com/SWI-Prolog/npm-swipl-wasm/tree/pages.
 
-With this approach the following script will work
+With this approach, the following script will work:
 
 ```html
 <div id="solution"></div>
@@ -205,9 +207,9 @@ Dynamic imports are also available with the `dynamic-import.js` import name and 
 
 ## Build
 
-The package can be built using npm. Please use npm to
-add new dependencies and update package-lock.json file. SWI-Prolog WebAssembly
-version is currently built inside Docker with Emscripten.
+The package can be built using npm. Please use npm to add new dependencies
+and update the package-lock.json file. The SWI-Prolog WebAssembly version is
+currently built inside Docker with Emscripten.
 
 ### Development
 
@@ -222,7 +224,7 @@ npm run build
 npm t
 ```
 
-*Note* You need Docker and Node 16 or higher to installed build the package.
+**Note:** You need Docker and Node 16 or higher to be installed to build the package.
 
 ## Versioning
 
@@ -240,14 +242,7 @@ const version = swipl.prolog
 
 The version is returned as integer `10000 × Major + 100 × Minor + Patch`.
 
-## TODO
-
-- Integrate with SWI-Prolog CI
-- TypeScript types for Prolog.js (and the Query interface)
-- Use EcmaScript modules as output:
-  <https://github.com/emscripten-core/emscripten/issues/11792>
-
 ## License
 
-Same as SWI-Prolog license, BSD simplified:
+This package uses the same license as SWI-Prolog (BSD-2-Clause):
 <https://github.com/SWI-Prolog/swipl-devel/blob/master/LICENSE>
