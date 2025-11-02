@@ -1,7 +1,19 @@
 #!/bin/bash
 # Read build-config.json and export as environment variables
+set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG=$(cat "$SCRIPT_DIR/../build-config.json")
+CONFIG_FILE="$SCRIPT_DIR/../build-config.json"
+
+if [ ! -f "$CONFIG_FILE" ]; then
+  echo "Error: build-config.json not found at $CONFIG_FILE" >&2
+  exit 1
+fi
+
+CONFIG=$(cat "$CONFIG_FILE")
+if [ -z "$CONFIG" ]; then
+  echo "Error: Failed to read build-config.json" >&2
+  exit 1
+fi
 export SWIPL_VERSION=$(echo "$CONFIG" | jq -r '.swipl.version')
 export SWIPL_COMMIT=$(echo "$CONFIG" | jq -r '.swipl.commit')
 export SWIPL_NAME=$(echo "$CONFIG" | jq -r '.swipl.name')

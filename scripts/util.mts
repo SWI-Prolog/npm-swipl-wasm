@@ -25,11 +25,28 @@ export function savePackage(packageJson: any) {
 }
 
 export function getBuildConfig() {
-  return JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'build-config.json')).toString())
+  const configPath = path.join(__dirname, '..', 'build-config.json');
+  try {
+    const content = fs.readFileSync(configPath, 'utf-8');
+    return JSON.parse(content);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      throw new Error(`build-config.json not found at ${configPath}`);
+    }
+    if (error instanceof SyntaxError) {
+      throw new Error(`build-config.json contains invalid JSON: ${error.message}`);
+    }
+    throw error;
+  }
 }
 
 export function saveBuildConfig(buildConfig: any) {
-  fs.writeFileSync(path.join(__dirname, '..', 'build-config.json'), `${JSON.stringify(buildConfig, null, 2)}\n`);
+  const configPath = path.join(__dirname, '..', 'build-config.json');
+  try {
+    fs.writeFileSync(configPath, `${JSON.stringify(buildConfig, null, 2)}\n`, 'utf-8');
+  } catch (error) {
+    throw new Error(`Failed to write build-config.json: ${(error as Error).message}`);
+  }
 }
 
 export type Tag = Awaited<ReturnType<Octokit['repos']['listTags']>>['data'][0];
