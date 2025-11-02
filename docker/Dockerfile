@@ -1,6 +1,6 @@
 # Builds SWI-Prolog WebAssembly version.
 # https://swi-prolog.discourse.group/t/swi-prolog-in-the-browser-using-wasm/5650
-ARG EMSDK_VERSION
+ARG EMSDK_VERSION=latest
 FROM emscripten/emsdk:$EMSDK_VERSION
 
 # Installs build dependencies.
