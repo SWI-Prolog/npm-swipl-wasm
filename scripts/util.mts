@@ -3,7 +3,6 @@ import path from 'path';
 import { Octokit } from '@octokit/rest';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import buildConfigData from '../build-config.json' with { type: 'json' };
 
 // Function to mimic __dirname in ES modules
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -38,16 +37,14 @@ export function isHigherVersion(v1: string, v2: string) {
     || ((major1 === major2) && (minor1 === minor2) && patch1 > patch2);
 }
 
-export function getPackage() {
-  return JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json')).toString())
-}
-
-export function savePackage(packageJson: any) {
-  fs.writeFileSync(path.join(__dirname, '..', 'package.json'), `${JSON.stringify(packageJson, null, 2)}\n`);
-}
-
 export function getBuildConfig(): BuildConfig {
-  return buildConfigData as BuildConfig;
+  const configPath = path.join(__dirname, '..', 'build-config.json');
+  try {
+    const data = fs.readFileSync(configPath, 'utf-8');
+    return JSON.parse(data) as BuildConfig;
+  } catch (error) {
+    throw new Error(`Failed to read build-config.json: ${(error as Error).message}`);
+  }
 }
 
 export function saveBuildConfig(buildConfig: BuildConfig) {
