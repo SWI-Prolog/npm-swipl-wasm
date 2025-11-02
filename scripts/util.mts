@@ -24,6 +24,14 @@ export function savePackage(packageJson: any) {
   fs.writeFileSync(path.join(__dirname, '..', 'package.json'), `${JSON.stringify(packageJson, null, 2)}\n`);
 }
 
+export function getBuildConfig() {
+  return JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'build-config.json')).toString())
+}
+
+export function saveBuildConfig(buildConfig: any) {
+  fs.writeFileSync(path.join(__dirname, '..', 'build-config.json'), `${JSON.stringify(buildConfig, null, 2)}\n`);
+}
+
 export type Tag = Awaited<ReturnType<Octokit['repos']['listTags']>>['data'][0];
 
 export async function getAllTags(options: { owner: string, repo: string }): Promise<Tag[]> {
@@ -62,11 +70,11 @@ export async function updateTag(options: IUpdateTagOptions) {
     }
   }
 
-  const pkg = getPackage();
+  const buildConfig = getBuildConfig();
 
-  // If a higher version exists, update the package.json
-  if (bestElem && isHigherVersion(bestElem.version, pkg.config[options.entry].version)) {
-    pkg.config[options.entry] = bestElem;
-    savePackage(pkg);
+  // If a higher version exists, update the build-config.json
+  if (bestElem && isHigherVersion(bestElem.version, buildConfig[options.entry].version)) {
+    buildConfig[options.entry] = bestElem;
+    saveBuildConfig(buildConfig);
   }
 }

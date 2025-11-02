@@ -28,7 +28,7 @@ jobs:
       with:
         node-version: 22.x
     - run: npm ci
-    - run: echo "CACHE_KEY=$(cat ./package.json | jq '.config | [.[]] | map(.version, .commit) | @tsv')" >> $GITHUB_ENV
+    - run: echo "CACHE_KEY=$(cat ./build-config.json | jq '[.[]] | map(.version, .commit) | @tsv')" >> $GITHUB_ENV
 
     - name: Restore cached build
       id: cache

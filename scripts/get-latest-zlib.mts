@@ -1,13 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies, no-console */
-import { getPackage, savePackage } from "./util.mts";
+import { getBuildConfig, saveBuildConfig } from "./util.mts";
 
 (async () => {
   const res = (await fetch('https://api.github.com/repos/madler/zlib/releases/latest'));
   if (res.status === 200) {
-    const pkg = getPackage();
+    const buildConfig = getBuildConfig();
     const tag = await res.json();
-    pkg.config.zlib.version = tag.name.slice(5);
-    savePackage(pkg);
+    buildConfig.zlib.version = tag.name.slice(5);
+    saveBuildConfig(buildConfig);
   } else {
     console.error(await res.text());
     process.exit(1);

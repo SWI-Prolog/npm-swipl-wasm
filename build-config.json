@@ -1,0 +1,20 @@
+{
+  "swipl": {
+    "version": "9.3.33",
+    "commit": "24cf6b20a91a3f389e22bd8ac915251c34ea30bb",
+    "name": "V9.3.33"
+  },
+  "emsdk": {
+    "version": "4.0.18",
+    "commit": "eb5eb4b3b2b792f44ded198bfe615c985da5be2c",
+    "name": "4.0.18"
+  },
+  "zlib": {
+    "version": "1.3.1"
+  },
+  "pcre2": {
+    "version": "10.47.0",
+    "commit": "f454e231fe5006dd7ff8f4693fd2b8eb94333429",
+    "name": "pcre2-10.47"
+  }
+}
