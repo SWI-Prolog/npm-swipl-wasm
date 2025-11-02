@@ -24,3 +24,21 @@ export ZLIB_VERSION=$(echo "$CONFIG" | jq -r '.zlib.version')
 export PCRE2_VERSION=$(echo "$CONFIG" | jq -r '.pcre2.version')
 export PCRE2_COMMIT=$(echo "$CONFIG" | jq -r '.pcre2.commit')
 export PCRE2_NAME=$(echo "$CONFIG" | jq -r '.pcre2.name')
+
+# Validate required variables are not null or empty
+if [ "$SWIPL_VERSION" = "null" ] || [ -z "$SWIPL_VERSION" ]; then
+  echo "Error: Missing or invalid swipl.version in build-config.json" >&2
+  exit 1
+fi
+if [ "$EMSDK_VERSION" = "null" ] || [ -z "$EMSDK_VERSION" ]; then
+  echo "Error: Missing or invalid emsdk.version in build-config.json" >&2
+  exit 1
+fi
+if [ "$ZLIB_VERSION" = "null" ] || [ -z "$ZLIB_VERSION" ]; then
+  echo "Error: Missing or invalid zlib.version in build-config.json" >&2
+  exit 1
+fi
+if [ "$PCRE2_NAME" = "null" ] || [ -z "$PCRE2_NAME" ]; then
+  echo "Error: Missing or invalid pcre2.name in build-config.json" >&2
+  exit 1
+fi

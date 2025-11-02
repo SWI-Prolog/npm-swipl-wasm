@@ -7,6 +7,27 @@ import { dirname } from 'path';
 // Function to mimic __dirname in ES modules
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+export interface BuildConfig {
+  swipl: {
+    version: string;
+    commit: string;
+    name: string;
+  };
+  emsdk: {
+    version: string;
+    commit: string;
+    name: string;
+  };
+  zlib: {
+    version: string;
+  };
+  pcre2: {
+    version: string;
+    commit: string;
+    name: string;
+  };
+}
+
 export function isHigherVersion(v1: string, v2: string) {
   const [major1, minor1, patch1] = v1.split('.').map(e => parseInt(e));
   const [major2, minor2, patch2] = v2.split('.').map(e => parseInt(e));
@@ -24,11 +45,11 @@ export function savePackage(packageJson: any) {
   fs.writeFileSync(path.join(__dirname, '..', 'package.json'), `${JSON.stringify(packageJson, null, 2)}\n`);
 }
 
-export function getBuildConfig() {
+export function getBuildConfig(): BuildConfig {
   const configPath = path.join(__dirname, '..', 'build-config.json');
   try {
     const content = fs.readFileSync(configPath, 'utf-8');
-    return JSON.parse(content);
+    return JSON.parse(content) as BuildConfig;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
       throw new Error(`build-config.json not found at ${configPath}`);
@@ -40,7 +61,7 @@ export function getBuildConfig() {
   }
 }
 
-export function saveBuildConfig(buildConfig: any) {
+export function saveBuildConfig(buildConfig: BuildConfig) {
   const configPath = path.join(__dirname, '..', 'build-config.json');
   try {
     fs.writeFileSync(configPath, `${JSON.stringify(buildConfig, null, 2)}\n`, 'utf-8');
