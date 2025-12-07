@@ -14,6 +14,40 @@ jobs:
       - uses: actions/checkout@v6
         with:
           token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0  # Fetch all history for all branches
+      - name: Update existing dependency branches
+        run: |
+          git config --global user.name 'Jesse Wright'
+          git config --global user.email '63333554+jeswr@users.noreply.github.com'
+          
+          # Fetch all branches
+          git fetch origin
+          
+          # Find all branches matching the pattern for this dependency
+          pattern="(feat|fix|breaking)/update-${{ matrix.dependency }}-v"
+          branches=$(git branch -r | grep -E "origin/${pattern}" | sed 's/origin\///' | tr -d ' ' || true)
+          
+          # Update each branch that is behind master
+          for branch in $branches; do
+            echo "Checking branch: $branch"
+            git checkout "$branch"
+            
+            # Check if branch is behind master
+            if git merge-base --is-ancestor HEAD origin/master; then
+              echo "Branch $branch is up-to-date with master"
+            else
+              echo "Branch $branch is behind master, merging..."
+              if git merge origin/master --no-edit; then
+                echo "Successfully merged master into $branch"
+                git push origin "$branch"
+              else
+                echo "Failed to merge master into $branch (likely conflicts)"
+              fi
+            fi
+          done
+          
+          # Switch back to master for the rest of the workflow
+          git checkout master
       - name: Use Node.js
         uses: actions/setup-node@v6
         with:
