@@ -119,7 +119,7 @@ jobs:
               # Close PRs and delete branches for older versions
               echo "Cleaning up older version branches for ${{ matrix.dependency }}"
               pattern="(feat|fix|breaking)/update-${{ matrix.dependency }}-v"
-              old_branches=$(git branch -r | grep -E "origin/${pattern}" | sed 's/origin\///' | tr -d ' ' | grep -v "^$branch$" || true)
+              old_branches=$(git branch -r | grep -E "origin/${pattern}" | sed 's/origin\///' | tr -d ' ' | grep -v -F "$branch" || true)
               
               for old_branch in $old_branches; do
                 echo "Found older branch: $old_branch"
@@ -128,7 +128,7 @@ jobs:
                 
                 if [ -n "$pr_number" ]; then
                   echo "Closing PR #$pr_number for $old_branch"
-                  gh pr close "$pr_number" --comment "Superseded by newer version in $branch" || echo "Failed to close PR #$pr_number"
+                  gh pr close "$pr_number" --comment "Superseded by newer version in $branch" || echo "Failed to close PR #$pr_number for $old_branch"
                 fi
                 
                 # Delete the branch
