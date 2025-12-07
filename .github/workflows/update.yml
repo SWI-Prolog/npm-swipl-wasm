@@ -33,7 +33,7 @@ jobs:
             git checkout "$branch"
             
             # Check if branch is behind master
-            if git merge-base --is-ancestor HEAD origin/master; then
+            if ! git merge-base --is-ancestor origin/master HEAD; then
               echo "Branch $branch is up-to-date with master"
             else
               echo "Branch $branch is behind master, merging..."
@@ -88,14 +88,14 @@ jobs:
             git config --global user.name 'Jesse Wright'
             git config --global user.email '63333554+jeswr@users.noreply.github.com'
             
-            # Check if branch exists remotely
-            git fetch origin
+            # Check if branch exists remotely (already fetched in previous step)
             if git ls-remote --heads origin $branch | grep -q $branch; then
               # Branch exists and was already updated with master in the previous step
               # Check it out and update the version
               echo "Branch $branch already exists, checking out and updating version"
               git checkout $branch
-              # Re-run the update script to ensure we have the latest version
+              # Re-run the update script to get the latest version on this branch
+              # (First run was on master to detect version changes)
               npm run "update:dep:${{ matrix.dependency }}"
               # Commit the version change if there are any changes
               if ! git diff --quiet; then
