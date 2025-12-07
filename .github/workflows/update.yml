@@ -115,6 +115,26 @@ jobs:
               if [ ! $branchHead == "breaking" ]; then
                 gh pr merge $branch --auto --squash
               fi
+              
+              # Close PRs and delete branches for older versions
+              echo "Cleaning up older version branches for ${{ matrix.dependency }}"
+              pattern="(feat|fix|breaking)/update-${{ matrix.dependency }}-v"
+              old_branches=$(git branch -r | grep -E "origin/${pattern}" | sed 's/origin\///' | tr -d ' ' | grep -v "^$branch$" || true)
+              
+              for old_branch in $old_branches; do
+                echo "Found older branch: $old_branch"
+                # Get PR number for the branch if it exists
+                pr_number=$(gh pr list --head "$old_branch" --json number --jq '.[0].number' 2>/dev/null || true)
+                
+                if [ -n "$pr_number" ]; then
+                  echo "Closing PR #$pr_number for $old_branch"
+                  gh pr close "$pr_number" --comment "Superseded by newer version in $branch" || echo "Failed to close PR #$pr_number"
+                fi
+                
+                # Delete the branch
+                echo "Deleting branch $old_branch"
+                git push origin --delete "$old_branch" || echo "Failed to delete branch $old_branch"
+              done
             fi
           fi
         env:
