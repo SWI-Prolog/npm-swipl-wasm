@@ -91,24 +91,19 @@ jobs:
             # Check if branch exists remotely
             git fetch origin
             if git ls-remote --heads origin $branch | grep -q $branch; then
-              # Branch exists, check it out and update it
-              echo "Branch $branch already exists, updating it"
-              # Stash the updated build-config.json before switching branches
-              git stash push -m "Updated build-config.json"
+              # Branch exists and was already updated with master in the previous step
+              # Check it out and update the version
+              echo "Branch $branch already exists, checking out and updating version"
               git checkout $branch
-              # Merge master into the branch to keep it up-to-date
-              if git merge origin/master --no-edit; then
-                echo "Successfully merged master into $branch"
-              else
-                echo "Merge failed, attempting to continue"
-              fi
-              # Apply the stashed changes (updated build-config.json)
-              git stash pop || echo "No stash to apply"
-              # Commit any changes
+              # Re-run the update script to ensure we have the latest version
+              npm run "update:dep:${{ matrix.dependency }}"
+              # Commit the version change if there are any changes
               if ! git diff --quiet; then
                 git commit -am "$msg"
+                git push origin $branch
+              else
+                echo "No version changes to commit"
               fi
-              git push origin $branch
             else
               # Branch doesn't exist, create it
               echo "Creating new branch $branch"
