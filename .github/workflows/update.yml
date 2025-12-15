@@ -14,6 +14,40 @@ jobs:
       - uses: actions/checkout@v6
         with:
           token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0  # Fetch all history for all branches
+      - name: Update existing dependency branches
+        run: |
+          git config --global user.name 'Jesse Wright'
+          git config --global user.email '63333554+jeswr@users.noreply.github.com'
+          
+          # Fetch all branches
+          git fetch origin
+          
+          # Find all branches matching the pattern for this dependency
+          pattern="(feat|fix|breaking)/update-${{ matrix.dependency }}-v"
+          branches=$(git branch -r | grep -E "origin/${pattern}" | sed 's/origin\///' | tr -d ' ' || true)
+          
+          # Update each branch that is behind master
+          for branch in $branches; do
+            echo "Checking branch: $branch"
+            git checkout "$branch"
+            
+            # Check if branch is behind master
+            if ! git merge-base --is-ancestor origin/master HEAD; then
+              echo "Branch $branch is up-to-date with master"
+            else
+              echo "Branch $branch is behind master, merging..."
+              if git merge origin/master --no-edit; then
+                echo "Successfully merged master into $branch"
+                git push origin "$branch"
+              else
+                echo "Failed to merge master into $branch (likely conflicts)"
+              fi
+            fi
+          done
+          
+          # Switch back to master for the rest of the workflow
+          git checkout master
       - name: Use Node.js
         uses: actions/setup-node@v6
         with:
@@ -53,13 +87,54 @@ jobs:
           if [ $branchHead ]; then
             git config --global user.name 'Jesse Wright'
             git config --global user.email '63333554+jeswr@users.noreply.github.com'
-            git checkout -b $branch
-            git commit -am "$msg"
-            git push --set-upstream origin $branch
-            gh pr create -t "$msg" -b "$msg"
             
-            if [ ! $branchHead == "breaking" ]; then
-              gh pr merge $branch --auto --squash
+            # Check if branch exists remotely (already fetched in previous step)
+            if git ls-remote --heads origin $branch | grep -q $branch; then
+              # Branch exists and was already updated with master in the previous step
+              # Check it out and update the version
+              echo "Branch $branch already exists, checking out and updating version"
+              git checkout $branch
+              # Re-run the update script to get the latest version on this branch
+              # (First run was on master to detect version changes)
+              npm run "update:dep:${{ matrix.dependency }}"
+              # Commit the version change if there are any changes
+              if ! git diff --quiet; then
+                git commit -am "$msg"
+                git push origin $branch
+              else
+                echo "No version changes to commit"
+              fi
+            else
+              # Branch doesn't exist, create it
+              echo "Creating new branch $branch"
+              git checkout -b $branch
+              git commit -am "$msg"
+              git push --set-upstream origin $branch
+              gh pr create -t "$msg" -b "$msg"
+              
+              if [ ! $branchHead == "breaking" ]; then
+                gh pr merge $branch --auto --squash
+              fi
+              
+              # Close PRs and delete branches for older versions
+              echo "Cleaning up older version branches for ${{ matrix.dependency }}"
+              pattern="(feat|fix|breaking)/update-${{ matrix.dependency }}-v"
+              old_branches=$(git branch -r | grep -E "origin/${pattern}" | sed 's/origin\///' | tr -d ' ' | grep -v -F "$branch" || true)
+              
+              for old_branch in $old_branches; do
+                echo "Found older branch: $old_branch"
+                # Get PR number for the branch if it exists
+                pr_number=$(gh pr list --head "$old_branch" --json number --jq '.[0].number' 2>/dev/null || true)
+                
+                if [ -n "$pr_number" ]; then
+                  echo "Closing PR #$pr_number for $old_branch"
+                  gh pr close "$pr_number" --comment "Superseded by newer version in $branch" || echo "Failed to close PR #$pr_number for $old_branch"
+                fi
+                
+                # Delete the branch
+                echo "Deleting branch $old_branch"
+                git push origin --delete "$old_branch" || echo "Failed to delete branch $old_branch"
+              done
             fi
           fi
         env:
