@@ -32,7 +32,7 @@ jobs:
 
     - name: Restore cached build
       id: cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: dist/swipl
         key: ${{ env.CACHE_KEY }}
@@ -45,7 +45,7 @@ jobs:
       if: steps.cache.outputs.cache-hit == 'true'
       run: npm run tsc
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v6
       with:
         name: dist
         path: dist
@@ -66,7 +66,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - uses: actions/download-artifact@v6
+    - uses: actions/download-artifact@v7
       with:
         name: dist
         path: dist
@@ -89,7 +89,7 @@ jobs:
       with:
         node-version: 22.x
     - run: npm ci
-    - uses: actions/download-artifact@v6
+    - uses: actions/download-artifact@v7
       with:
         name: dist
         path: dist
