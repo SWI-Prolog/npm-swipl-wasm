@@ -7,12 +7,16 @@ FROM emscripten/emsdk:$EMSDK_VERSION
 RUN apt-get update && apt-get install -y ninja-build rsync
 
 # Configure git to skip SSL verification (needed in sandboxed environment)
+# Note: This is required for CI/sandbox environments where SSL certificates may not be properly configured.
+# In production, proper SSL certificates should be used.
 RUN git config --global http.sslVerify false
 
 # Download dependency sources
 WORKDIR /wasm
 ARG ZLIB_VERSION
 ARG PCRE2_NAME
+# Download zlib from GitHub (using -k for SSL in sandboxed environments)
+# Note: In production, proper SSL certificates should be configured
 RUN curl -k -L https://github.com/madler/zlib/releases/download/v$ZLIB_VERSION/zlib-$ZLIB_VERSION.tar.gz | tar xvz
 RUN git clone --branch=$PCRE2_NAME --depth 1 https://github.com/PCRE2Project/pcre2
 

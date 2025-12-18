@@ -1,11 +1,12 @@
 --- a/src/os/pl-cstack.c
 +++ b/src/os/pl-cstack.c
-@@ -1109,7 +1109,7 @@
+@@ -1109,7 +1109,8 @@
  		/*******************************
  		*          ADDR2LINE           *
  		*******************************/
  
 -#ifndef __WINDOWS__
++/* Exclude Emscripten/WASM: addr2line2 uses popen/dladdr which are not available in WASM */
 +#if !defined(__WINDOWS__) && !defined(__EMSCRIPTEN__)
  #define HAVE_ADDR2LINE2 1
  
