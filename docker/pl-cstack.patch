@@ -1,0 +1,12 @@
+--- a/src/os/pl-cstack.c
++++ b/src/os/pl-cstack.c
+@@ -1109,7 +1109,7 @@
+ 		/*******************************
+ 		*          ADDR2LINE           *
+ 		*******************************/
+ 
+-#ifndef __WINDOWS__
++#if !defined(__WINDOWS__) && !defined(__EMSCRIPTEN__)
+ #define HAVE_ADDR2LINE2 1
+ 
+ #ifdef __APPLE__

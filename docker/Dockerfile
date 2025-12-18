@@ -6,11 +6,14 @@ FROM emscripten/emsdk:$EMSDK_VERSION
 # Installs build dependencies.
 RUN apt-get update && apt-get install -y ninja-build rsync
 
+# Configure git to skip SSL verification (needed in sandboxed environment)
+RUN git config --global http.sslVerify false
+
 # Download dependency sources
 WORKDIR /wasm
 ARG ZLIB_VERSION
 ARG PCRE2_NAME
-RUN wget --no-verbose -qO- https://zlib.net/zlib-$ZLIB_VERSION.tar.gz | tar xvz
+RUN curl -k -L https://github.com/madler/zlib/releases/download/v$ZLIB_VERSION/zlib-$ZLIB_VERSION.tar.gz | tar xvz
 RUN git clone --branch=$PCRE2_NAME --depth 1 https://github.com/PCRE2Project/pcre2
 
 # Build the dependencies and install them in /wasm
@@ -38,6 +41,10 @@ RUN git submodule update --init --depth 1 -j 100 \
     packages/nlp packages/pcre packages/plunit packages/sgml packages/RDF \
     packages/semweb packages/zlib
 
+# Apply patch for WASM compatibility
+COPY pl-cstack.patch /tmp/pl-cstack.patch
+RUN patch -p1 < /tmp/pl-cstack.patch
+
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
 RUN mkdir -p /swipl-devel/build.wasm
@@ -49,6 +56,9 @@ RUN cmake -DCMAKE_TOOLCHAIN_FILE=/emsdk/upstream/emscripten/cmake/Modules/Platfo
   -DINSTALL_DOCUMENTATION=OFF \
   -DINSTALL_QLF=ON \
   -DINSTALL_PROLOG_SRC=OFF \
+  -DHAVE_EXECINFO_H=OFF \
+  -DHAVE_BACKTRACE=OFF \
+  -DHAVE_DLADDR=OFF \
   -G Ninja ..
 RUN ninja
 
