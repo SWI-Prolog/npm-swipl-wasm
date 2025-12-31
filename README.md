@@ -211,6 +211,20 @@ The package can be built using npm. Please use npm to add new dependencies
 and update the package-lock.json file. The SWI-Prolog WebAssembly version is
 currently built inside Docker with Emscripten.
 
+### Serving Files
+
+When self-hosting the bundled files, ensure your server includes `charset=utf-8` in the `Content-Type` header for JavaScript files:
+
+```
+Content-Type: text/javascript; charset=utf-8
+```
+
+Without the charset, WASM streaming instantiation may fail in headless browsers with errors like:
+- Firefox: `CompileError: wasm validation error: at offset 642: byte size mismatch in type section`
+- Chromium: `CompileError: WebAssembly.instantiate(): section was shorter than expected size`
+
+Most static file servers (e.g., `express.static()`) set this automatically, but custom streaming handlers using `createReadStream().pipe(res)` may not.
+
 ### Development
 
 To develop with this package, clone the repository and run:
