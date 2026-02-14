@@ -140,6 +140,28 @@ There is an example Webpack project in `examples/webpack`. It uses
 necessary `.data` and `.wasm` files. The location of these files is then
 fed to `locateFile` (see above).
 
+When bundling `swipl-wasm` for the browser with Webpack, you need to add
+fallbacks for Node.js built-in modules that are not available in the browser.
+Add the following to your `webpack.config.js`:
+
+```js
+module.exports = {
+  // ...
+  resolve: {
+    fallback: {
+      crypto: false,
+      fs: false,
+      path: false,
+      perf_hooks: false,
+      "node:crypto": false,
+      "node:fs": false,
+      "node:path": false,
+      "node:perf_hooks": false,
+    },
+  },
+};
+```
+
 The package `swipl-wasm` is linked into the example. In an actual project,
 you would declare `swipl-wasm` as a normal dependency.
 
