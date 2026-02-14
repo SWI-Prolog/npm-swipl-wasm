@@ -1,4 +1,5 @@
 const path = require('path');
+const { NormalModuleReplacementPlugin } = require('webpack');
 
 const version = process.argv.find(name => name.startsWith('--name='))?.slice(8);
 
@@ -16,10 +17,11 @@ module.exports = {
       fs: false,
       crypto: false,
       perf_hooks: false,
-      'node:fs': false,
-      'node:crypto': false,
-      'node:path': false,
-      'node:perf_hooks': false,
     }
   },
+  plugins: [
+    new NormalModuleReplacementPlugin(/^node:/, (resource) => {
+      resource.request = resource.request.replace(/^node:/, '');
+    }),
+  ],
 };
