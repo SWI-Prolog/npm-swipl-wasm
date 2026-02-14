@@ -16,6 +16,10 @@ module.exports = {
       fs: false,
       crypto: false,
       perf_hooks: false,
+      'node:fs': false,
+      'node:crypto': false,
+      'node:path': false,
+      'node:perf_hooks': false,
     }
   },
 };
