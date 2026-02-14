@@ -83,6 +83,7 @@ jobs:
       repository-projects: write
       pages: write
       issues: write
+      id-token: write
     steps:
     - uses: actions/checkout@v6
     - uses: actions/setup-node@v6
@@ -95,7 +96,6 @@ jobs:
         path: dist
     - name: "Create Bundle"
       env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         GITHUB_TOKEN: ${{ github.token }}
       run: |
         # The semantic-release command errors if this folder does not exist
@@ -108,7 +108,6 @@ jobs:
         fi
     - name: Release
       env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         # You may be tempted to make this github.token, this won't work
         # because GH Actions does not trigger workflows INCLUDING GITHUB PAGES RELEASES on github.token
         # to avoid recursive workflows.
