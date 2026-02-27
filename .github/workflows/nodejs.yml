@@ -45,7 +45,7 @@ jobs:
       if: steps.cache.outputs.cache-hit == 'true'
       run: npm run tsc
 
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       with:
         name: dist
         path: dist
