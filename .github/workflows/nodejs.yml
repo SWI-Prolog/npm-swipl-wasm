@@ -66,7 +66,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - uses: actions/download-artifact@v7
+    - uses: actions/download-artifact@v8
       with:
         name: dist
         path: dist
@@ -90,7 +90,7 @@ jobs:
       with:
         node-version: 24.x
     - run: npm ci
-    - uses: actions/download-artifact@v7
+    - uses: actions/download-artifact@v8
       with:
         name: dist
         path: dist
