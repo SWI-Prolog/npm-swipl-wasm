@@ -1,8 +1,8 @@
 {
   "swipl": {
-    "version": "10.1.4",
-    "commit": "5a2191ba53fc1a4021bf2fe3e311f6657cf55867",
-    "name": "V10.1.4"
+    "version": "10.1.5",
+    "commit": "1411584fcf4c2c9251fe8a0d65def13951487177",
+    "name": "V10.1.5"
   },
   "emsdk": {
     "version": "5.0.2",
