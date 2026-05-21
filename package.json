@@ -30,7 +30,7 @@
     "eslint": "^10.4.0",
     "globals": "^17.6.0",
     "http-server": "^14.1.1",
-    "mocha": "^11.7.5",
+    "mocha": "^11.7.6",
     "node-static": "^0.7.11",
     "npm-run-all": "^4.1.5",
     "puppeteer": "^24.43.1",
@@ -38,7 +38,7 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.22.3",
     "typescript": "^5.9.3",
-    "webpack": "^5.107.0",
+    "webpack": "^5.107.1",
     "webpack-cli": "^7.0.2"
   },
   "files": [
