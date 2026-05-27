@@ -39,7 +39,7 @@
     "tsx": "^4.22.3",
     "typescript": "^5.9.3",
     "webpack": "^5.107.2",
-    "webpack-cli": "^7.0.2"
+    "webpack-cli": "^7.0.3"
   },
   "files": [
     "dist/**/*.js",
