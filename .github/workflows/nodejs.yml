@@ -54,6 +54,8 @@ jobs:
     needs: [ build ]
     strategy:
       matrix:
+        # Node 24 is pinned to 24.15 because 24.16+ breaks puppeteer.
+        # See https://github.com/puppeteer/puppeteer/issues/15071
         node-version: [16.x, 18.x, 19.x, 20.x, 22.x, "24.15", 25.x]
         os: [ ubuntu-22.04, macos-latest, windows-latest ]
 
