@@ -75,6 +75,20 @@ jobs:
     - run: npm test
     - run: npm run bundle:webpack
 
+  ci-success:
+    name: CI Success
+    if: always()
+    needs: [ lint, build, test ]
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Check that all required jobs succeeded
+      run: |
+        if [ "${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}" = "true" ]; then
+          echo "One or more required jobs did not succeed."
+          exit 1
+        fi
+        echo "All required jobs succeeded."
+
   release:
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: [ test, lint ]
