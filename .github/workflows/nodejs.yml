@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v6
     - uses: actions/setup-node@v6
       with:
-        node-version: 24.x
+        node-version: "24.15"
     - run: npm ci
     - run: npm run lint
 
@@ -26,7 +26,7 @@ jobs:
     - uses: actions/checkout@v6
     - uses: actions/setup-node@v6
       with:
-        node-version: 24.x
+        node-version: "24.15"
     - run: npm ci
     - run: echo "CACHE_KEY=$(cat ./build-config.json | jq '[.[]] | map(.version, .commit) | @tsv')" >> $GITHUB_ENV
 
@@ -54,7 +54,9 @@ jobs:
     needs: [ build ]
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 19.x, 20.x, 22.x, 24.x, 25.x]
+        # Node 24 is pinned to 24.15 because 24.16+ breaks puppeteer.
+        # See https://github.com/puppeteer/puppeteer/issues/15071
+        node-version: [16.x, 18.x, 19.x, 20.x, 22.x, "24.15", 25.x]
         os: [ ubuntu-22.04, macos-latest, windows-latest ]
 
     runs-on: ${{ matrix.os }}
@@ -73,6 +75,21 @@ jobs:
     - run: npm test
     - run: npm run bundle:webpack
 
+  ci-success:
+    name: CI Success
+    if: always()
+    needs: [ lint, build, test ]
+    runs-on: ubuntu-22.04
+    permissions: {}
+    steps:
+    - name: Fail if any required job did not succeed
+      if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
+      run: |
+        echo "One or more required jobs did not succeed."
+        exit 1
+    - name: All required jobs succeeded
+      run: echo "All required jobs succeeded."
+
   release:
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: [ test, lint ]
@@ -88,7 +105,7 @@ jobs:
     - uses: actions/checkout@v6
     - uses: actions/setup-node@v6
       with:
-        node-version: 24.x
+        node-version: "24.15"
     - run: npm ci
     - uses: actions/download-artifact@v8
       with:
