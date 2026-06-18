@@ -11,7 +11,7 @@ jobs:
         dependency: ['swipl', 'emsdk', 'zlib', 'pcre2']
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.GH_TOKEN }}
           fetch-depth: 0  # Fetch all history for all branches
