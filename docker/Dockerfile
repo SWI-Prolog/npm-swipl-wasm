@@ -38,6 +38,14 @@ RUN git submodule update --init --depth 1 -j 100 \
     packages/nlp packages/pcre packages/plunit packages/sgml packages/RDF \
     packages/semweb packages/zlib
 
+# Add the swipl-web-no-data link target: an external (streamable) .wasm
+# with no .data preload and no base64 embedding.  The snippet is
+# appended (rather than applied as a context patch) so it keeps working
+# across SWIPL_COMMIT bumps, and it is guarded to become a no-op if
+# swipl-devel ever ships the target itself.
+COPY swipl-web-no-data.cmake /tmp/swipl-web-no-data.cmake
+RUN cat /tmp/swipl-web-no-data.cmake >> /swipl-devel/cmake/EmscriptenTargets.cmake
+
 # Build SWIPL
 WORKDIR /swipl-devel/build.wasm
 RUN mkdir -p /swipl-devel/build.wasm
