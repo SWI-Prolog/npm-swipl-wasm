@@ -36,10 +36,10 @@
     "puppeteer": "^24.43.1",
     "semantic-release": "^25.0.5",
     "ts-node": "^10.9.2",
-    "tsx": "^4.22.4",
+    "tsx": "^4.23.0",
     "typescript": "^5.9.3",
-    "webpack": "^5.108.3",
-    "webpack-cli": "^7.1.0"
+    "webpack": "^5.108.4",
+    "webpack-cli": "^7.2.1"
   },
   "files": [
     "dist/**/*.js",
