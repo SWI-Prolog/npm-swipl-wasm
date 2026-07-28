@@ -24,7 +24,7 @@
     "@octokit/rest": "^22.0.1",
     "@qiwi/semantic-release-gh-pages-plugin": "^5.4.3",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^26.1.1",
+    "@types/node": "^26.1.2",
     "@typescript-eslint/eslint-plugin": "^8.65.0",
     "@typescript-eslint/parser": "^8.32.1",
     "eslint": "^10.8.0",
@@ -38,7 +38,7 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.23.1",
     "typescript": "^5.9.3",
-    "webpack": "^5.109.0",
+    "webpack": "^5.109.1",
     "webpack-cli": "^7.2.1"
   },
   "files": [
