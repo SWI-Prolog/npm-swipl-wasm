@@ -1,4 +1,5 @@
 const assert = require("assert");
+const fs = require("fs");
 const path = require("path");
 
 describe("SWI-Prolog WebAssembly on Node.js", () => {
@@ -188,4 +189,43 @@ describe("SWI-Prolog WebAssembly on Node.js", () => {
       assert.deepEqual(errorMessages, []);
     });
   }
+});
+
+describe("SWI-Prolog WebAssembly no-data web build", () => {
+  const SWIPL_WEB_NO_DATA = require("../dist/swipl/swipl-web-no-data");
+  const SWIPL_BUNDLE = require("../dist/swipl/swipl-bundle");
+  const swiplDir = path.join(__dirname, "..", "dist", "swipl");
+
+  // Build a saved state to boot from; the no-data builds do not ship
+  // the Prolog library, so they can only start from an image.
+  async function generateImage() {
+    const bundle = await SWIPL_BUNDLE({
+      arguments: ["-q", "-f", "prolog.pl"],
+      preRun: [(module) => module.FS.writeFile("prolog.pl", "hello(world).\n")],
+    });
+    bundle.prolog.query('qsave_program("image.pvm")').once();
+    return bundle.FS.readFile("/image.pvm");
+  }
+
+  it("should ship an external wasm and no data preload", () => {
+    const glue = fs.readFileSync(path.join(swiplDir, "swipl-web-no-data.js"), "utf8");
+    assert.ok(glue.includes("swipl-web-no-data.wasm"), "glue must reference the external wasm");
+    assert.ok(!glue.includes("swipl-web-no-data.data"), "glue must not reference a data preload");
+    assert.ok(!fs.existsSync(path.join(swiplDir, "swipl-web-no-data.data")), "no data file may be produced");
+  });
+
+  it("should boot from a saved state fetching only the wasm", async () => {
+    const image = await generateImage();
+    const located = [];
+    const swipl = await SWIPL_WEB_NO_DATA({
+      arguments: ["-q", "-x", "image.pvm"],
+      preRun: [(module) => module.FS.writeFile("image.pvm", image)],
+      locateFile: (name) => {
+        located.push(name);
+        return path.join(swiplDir, name);
+      },
+    });
+    assert.strictEqual(swipl.prolog.query("hello(X).").once().X, "world");
+    assert.ok(located.every((name) => !name.endsWith(".data")), "no .data file may be requested");
+  });
 });

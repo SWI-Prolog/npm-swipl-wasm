@@ -2,6 +2,8 @@ node_modules
 dist/swipl/*.js
 dist/swipl/swipl-web.data
 dist/swipl/swipl-web.wasm
+dist/swipl/swipl-web-no-data.wasm
+examples/no-data-image.pvm
 examples/webpack/node_modules
 examples/webpack/public/*.data
 examples/webpack/public/*.wasm
@@ -12,6 +14,8 @@ dist/loadImage.js
 dist/loadImage.d.ts
 dist/loadImageDefault.js
 dist/loadImageDefault.d.ts
+dist/loadImageWeb.js
+dist/loadImageWeb.d.ts
 dist/generateImage.js
 dist/generateImage.d.ts
 dist/strToBuffer.js
