@@ -2,6 +2,7 @@
 
 import SWIPL from './swipl/swipl-bundle';
 import fs from 'fs';
+import dns from 'dns/promises';
 
 function Uint8ToString(u8a: Uint8Array) {
   const CHUNK_SZ = 0x8000;
@@ -39,22 +40,59 @@ export async function generateLoadedImageFileString(prolog: string | Buffer) {
     `export default loadImage(strToBuffer("${await generateImageString(prolog)}"))\n`;
 }
 
-function dereference(prologPath: string): Promise<string> | Buffer {
-  return (prologPath.startsWith('http://') || prologPath.startsWith('https://'))
-    ? fetch(prologPath).then((res) => res.text())
-    : fs.readFileSync(prologPath)
+export interface DereferenceOptions {
+  /**
+   * Allow reading local filesystem paths. Defaults to true for backwards
+   * compatibility; will default to false in the next major version.
+   */
+  allowLocalFiles?: boolean;
 }
 
-export async function generateImageFile(prologPath: string, jsPath: string): Promise<void> {
+// Matches private/loopback/link-local IPv4 and IPv6 addresses.
+const PRIVATE_IP_RE = [
+  /^127\./,                        // 127.0.0.0/8 loopback
+  /^10\./,                         // 10.0.0.0/8 RFC-1918
+  /^172\.(1[6-9]|2\d|3[01])\./,   // 172.16.0.0/12 RFC-1918
+  /^192\.168\./,                   // 192.168.0.0/16 RFC-1918
+  /^169\.254\./,                   // 169.254.0.0/16 link-local / cloud metadata
+  /^0\./,                          // 0.0.0.0/8 unspecified
+  /^::1$/,                         // ::1 IPv6 loopback
+  /^fc/i,                          // fc00::/7 IPv6 unique-local
+  /^fd/i,                          // fd00::/8 IPv6 unique-local
+  /^fe8/i,                         // fe80::/10 IPv6 link-local
+];
+
+export async function validateRemoteUrl(url: URL): Promise<void> {
+  const addresses = await dns.lookup(url.hostname, { all: true });
+  for (const { address } of addresses) {
+    if (PRIVATE_IP_RE.some((re) => re.test(address))) {
+      throw new Error(`Requests to internal network addresses are not allowed: ${address}`);
+    }
+  }
+}
+
+export async function dereference(prologPath: string, options: DereferenceOptions = {}): Promise<string | Buffer> {
+  if (prologPath.startsWith('http://') || prologPath.startsWith('https://')) {
+    const url = new URL(prologPath);
+    await validateRemoteUrl(url);
+    return fetch(prologPath).then((res) => res.text());
+  }
+  if (options.allowLocalFiles === false) {
+    throw new Error('Local file access is disabled');
+  }
+  return fs.readFileSync(prologPath);
+}
+
+export async function generateImageFile(prologPath: string, jsPath: string, options?: DereferenceOptions): Promise<void> {
   fs.writeFileSync(
     jsPath,
-    await generateImageFileString(await dereference(prologPath)),
+    await generateImageFileString(await dereference(prologPath, options)),
   );
 }
 
-export async function generateLoadedImageFile(prologPath: string, jsPath: string): Promise<void> {
+export async function generateLoadedImageFile(prologPath: string, jsPath: string, options?: DereferenceOptions): Promise<void> {
   fs.writeFileSync(
     jsPath,
-    await generateLoadedImageFileString(await dereference(prologPath)),
+    await generateLoadedImageFileString(await dereference(prologPath, options)),
   );
 }
