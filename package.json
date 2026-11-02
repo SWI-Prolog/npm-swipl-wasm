@@ -24,10 +24,10 @@
     "@octokit/rest": "^22.0.1",
     "@qiwi/semantic-release-gh-pages-plugin": "^5.4.3",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^26.6.5",
+    "@types/node": "^26.6.6",
     "@typescript-eslint/eslint-plugin": "^8.72.1",
     "@typescript-eslint/parser": "^8.32.1",
-    "eslint": "^10.13.0",
+    "eslint": "^10.14.0",
     "globals": "^17.13.0",
     "http-server": "^14.1.1",
     "mocha": "^11.8.0",
@@ -39,7 +39,7 @@
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "webpack": "^5.112.2",
-    "webpack-cli": "^7.2.3"
+    "webpack-cli": "^7.3.0"
   },
   "files": [
     "dist/**/*.js",
