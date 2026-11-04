@@ -28,7 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^8.72.1",
     "@typescript-eslint/parser": "^8.32.1",
     "eslint": "^10.14.0",
-    "globals": "^17.13.0",
+    "globals": "^17.14.0",
     "http-server": "^14.1.1",
     "mocha": "^11.8.0",
     "node-static": "^0.7.11",
