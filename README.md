@@ -98,6 +98,45 @@ the `.js` file instead.
 </script>
 ```
 
+## Using the No-Data Web Build
+
+The build matrix also contains `swipl-web-no-data.js`: like `swipl-web.js`
+the WebAssembly stays in an external `swipl-web-no-data.wasm` file (so
+browsers can compile it with `WebAssembly.instantiateStreaming` and cache it
+independently of your application code), but like `swipl-bundle-no-data.js`
+there is no `.data` file at all.
+
+Because the standard Prolog library is not shipped, this build must be
+booted from a saved state (see "Generating an Image" below):
+
+```html
+<div id="solution"></div>
+<script src="/dist/swipl/swipl-web-no-data.js"></script>
+<script>
+  (async () => {
+    const response = await fetch("/path/to/your-image.pvm");
+    const image = new Uint8Array(await response.arrayBuffer());
+    const swipl = await SWIPL({
+      arguments: ["-q", "-x", "image.pvm"],
+      preRun: [(module) => module.FS.writeFile("image.pvm", image)],
+      locateFile: (path) => `/dist/swipl/${path}`,
+    });
+    const solutionElement = document.getElementById("solution");
+    solutionElement.textContent = swipl.prolog.query("hello(X).").once().X;
+  })();
+</script>
+```
+
+This is the smallest way to deliver SWI-Prolog over the wire: roughly the
+brotli-compressed size of the `.wasm` plus a small JS glue, instead of
+additionally downloading the `.data` file (`swipl-web`) or downloading and
+parsing a single large JavaScript file with the WebAssembly embedded in
+base64 (`swipl-bundle-no-data`).
+
+You can run this example by executing `npm run test:serve-http` and
+visiting <http://localhost:8080/examples/browser-no-data.html> (the test
+suite generates the saved state used by that page).
+
 ## Generating an Image
 
 Often you will want to bundle a pre-built image of your Prolog file. The easiest way to do this is using the `swipl-generate` command to generate the image. For example, in `./examples/generation`, the script `npx swipl-generate ./max.pl ./dist/max.ts` will generate a file `./dist/max.ts` which contains the image of `./max.pl`. This file can then be imported into your project and used as follows:
