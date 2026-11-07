@@ -39,10 +39,27 @@ export async function generateLoadedImageFileString(prolog: string | Buffer) {
     `export default loadImage(strToBuffer("${await generateImageString(prolog)}"))\n`;
 }
 
+function isForbiddenHost(hostname: string): boolean {
+  const host = hostname.toLowerCase();
+  if (host === 'localhost' || host === '::1' || host === '169.254.169.254') return true;
+  const ipv4 = host.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (ipv4) {
+    const [a, b] = [parseInt(ipv4[1], 10), parseInt(ipv4[2], 10)];
+    return a === 127 || a === 10 || a === 0 || (a === 169 && b === 254) ||
+      (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168);
+  }
+  return false;
+}
+
 function dereference(prologPath: string): Promise<string> | Buffer {
-  return (prologPath.startsWith('http://') || prologPath.startsWith('https://'))
-    ? fetch(prologPath).then((res) => res.text())
-    : fs.readFileSync(prologPath)
+  if (prologPath.startsWith('http://') || prologPath.startsWith('https://')) {
+    const { hostname } = new URL(prologPath);
+    if (isForbiddenHost(hostname)) {
+      throw new Error(`Refusing to fetch prolog file from disallowed host: ${hostname}`);
+    }
+    return fetch(prologPath).then((res) => res.text());
+  }
+  return fs.readFileSync(prologPath);
 }
 
 export async function generateImageFile(prologPath: string, jsPath: string): Promise<void> {
