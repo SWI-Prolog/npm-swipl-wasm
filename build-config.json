@@ -5,9 +5,9 @@
     "name": "V10.1.20"
   },
   "emsdk": {
-    "version": "6.0.13",
-    "commit": "35659964bc2762fffec0d257997fb61475f765b7",
-    "name": "6.0.13"
+    "version": "7.0.0",
+    "commit": "1693ce7359fc9694f198694f902a2cc061239b86",
+    "name": "7.0.0"
   },
   "zlib": {
     "version": "1.4"
