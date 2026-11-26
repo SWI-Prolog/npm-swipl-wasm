@@ -28,7 +28,10 @@ jobs:
       with:
         node-version: "24.15"
     - run: npm ci
-    - run: echo "CACHE_KEY=$(cat ./build-config.json | jq '[.[]] | map(.version, .commit) | @tsv')" >> $GITHUB_ENV
+    # The cache key covers everything that determines the WASM artifacts:
+    # the pinned dependency versions AND the Docker build definition, so
+    # that changes to docker/ invalidate previously cached artifacts.
+    - run: echo "CACHE_KEY=$(cat ./build-config.json | jq '[.[]] | map(.version, .commit) | @tsv')-$(cat docker/* | sha256sum | cut -c1-16)" >> $GITHUB_ENV
 
     - name: Restore cached build
       id: cache

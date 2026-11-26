@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF8">
+    <title>SWI-Prolog WebAssembly no-data browser test</title>
+  </head>
+  <body>
+    <div id="solution"></div>
+    <script src="/dist/swipl/swipl-web-no-data.js"></script>
+    <script>
+      (async () => {
+        // The no-data build ships no Prolog library, so it boots from a
+        // saved state.  Only swipl-web-no-data.wasm is fetched by the
+        // runtime itself (streamed via WebAssembly.instantiateStreaming).
+        const response = await fetch('/examples/no-data-image.pvm');
+        const image = new Uint8Array(await response.arrayBuffer());
+        const swipl = await SWIPL({
+          arguments: ['-q', '-x', 'image.pvm'],
+          preRun: [(module) => module.FS.writeFile('image.pvm', image)],
+          locateFile: (path) => {
+            return `/dist/swipl/${path}`;
+          }
+        });
+        const solutionElement = document.getElementById('solution');
+        const firstSolution = swipl.prolog.query('hello(X).').once().X;
+        solutionElement.textContent = firstSolution;
+      })();
+    </script>
+  </body>
+</html>

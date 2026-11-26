@@ -54,6 +54,8 @@
     "build:wasm-docker:extract:data": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.data dist/swipl/swipl-web.data",
     "build:wasm-docker:extract:wasm": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.wasm dist/swipl/swipl-web.wasm",
     "build:wasm-docker:extract:web": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl-web.js",
+    "build:wasm-docker:extract:webNoData": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web-no-data.js dist/swipl/swipl-web-no-data.js",
+    "build:wasm-docker:extract:webNoDataWasm": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web-no-data.wasm dist/swipl/swipl-web-no-data.wasm",
     "build:wasm-docker:extract:bundle": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-bundle.js dist/swipl/swipl-bundle.js",
     "build:wasm-docker:extract:bundleNoData": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-bundle-no-data.js dist/swipl/swipl-bundle-no-data.js",
     "build:wasm-docker:extract:node": "docker cp swipl-wasm:/swipl-devel/build.wasm/src/swipl-web.js dist/swipl/swipl.js",
